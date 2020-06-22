@@ -1,8 +1,7 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
 		<view>
-			<text class="title">{{title}}</text>
+			<navigator url="/pages/space/space">空间</navigator>
 		</view>
 	</view>
 </template>

@@ -3,14 +3,31 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "主页",
+        "app-plus": {
+          // "titleNView": {
+          //   "buttons": [
+          //     {
+          //       "text": "\ue7ae 你的家",
+          //       "fontSrc": "/static/iconfont/iconfont.ttf",
+          //       "fontSize": "16px",
+          //       "float": "left"
+          //     }
+          //   ]
+          // }
+        }
 			}
-		}
-	],
+		},
+    {
+      "path" : "pages/space/space",
+      "style" : {
+        "navigationBarTitleText": "空间"
+      }
+    }
+   ],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "收纳空间",
+		"navigationBarBackgroundColor": "#0050b3"
 	}
 }

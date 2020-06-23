@@ -1,33 +1,56 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "主页",
-        "app-plus": {
-          // "titleNView": {
-          //   "buttons": [
-          //     {
-          //       "text": "\ue7ae 你的家",
-          //       "fontSrc": "/static/iconfont/iconfont.ttf",
-          //       "fontSize": "16px",
-          //       "float": "left"
-          //     }
-          //   ]
-          // }
-        }
-			}
-		},
+		// {
+		// 	"path": "pages/index/index",
+		// 	"style": {
+		// 		"navigationBarTitleText": "主页",
+  //       "app-plus": {
+  //         // "titleNView": {
+  //         //   "buttons": [
+  //         //     {
+  //         //       "text": "\ue7ae 你的家",
+  //         //       "fontSrc": "/static/iconfont/iconfont.ttf",
+  //         //       "fontSize": "16px",
+  //         //       "float": "left"
+  //         //     }
+  //         //   ]
+  //         // }
+  //       }
+		// 	}
+		// },
     {
       "path" : "pages/space/space",
       "style" : {
         "navigationBarTitleText": "空间"
       }
+    },
+    {
+      "path" : "pages/furniture/furniture",
+      "style" : {
+        "navigationBarTitleText": "家具编辑"
+      }
     }
-   ],
+  ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "收纳空间",
 		"navigationBarBackgroundColor": "#0050b3"
-	}
+	},
+  "tabBar": {
+    "color": "#999999",
+    "list": [
+      {
+        "pagePath": "pages/space/space",
+        "text": "空间",
+        "iconPath": "/static/icons/tab-space.png",
+        "selectedIconPath": "/static/icons/tab-space-select.png"
+      },
+      {
+        "pagePath": "pages/view/view",
+        "text": "查看",
+        "iconPath": "/static/icons/tab-view.png",
+        "selectedIconPath": "/static/icons/tab-view-select.png"
+      }
+    ]
+  }
 }

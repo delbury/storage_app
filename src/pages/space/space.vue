@@ -1,35 +1,39 @@
 <template>
-	<view>
-    <wuc-tab :tabList="tabList" tabClass="space-tab"></wuc-tab>
+	<view class="page">
+    <dy-tab :tabList="tabList" :currentIndex.sync="currentIndex">
+      <text class="btn-tab-edit iconfont icon-all-fill" @click="handleTabEdit"></text>
+    </dy-tab>
+    
+    <space-swiper :tabList="tabList" :currentIndex.sync="currentIndex"></space-swiper>
 	</view>
 </template>
 
 <script>
-  import WucTab from '@/components/wuc-tab/wuc-tab.vue'
+  import DyTab from '@/components/dy-tab/dy-tab.vue'
+  import SpaceSwiper from '@/components/space-swiper/space-swiper.vue'
+  
 	export default {
-    components: { WucTab },
+    components: { DyTab, SpaceSwiper },
 		data() {
 			return {
-        tabList: [
-          { name: '客厅' }
-        ]
-			}
+        currentIndex: 0,
+       }
 		},
+    computed: {
+      tabList() {
+        return this.$store.state.tabList
+      }
+    },
 		methods: {
-			
+      // tab栏编辑按钮
+			handleTabEdit() {
+        uni.navigateTo({
+          url: '/pages/furniture/furniture'
+        })
+      }
 		}
 	}
 </script>
 
-<style lang="scss" scoped>
-  .space-tab {
-    background-color: $uni-color-primary;
-    
-    /deep/ .wuc-tab-item {
-      height: 36px;
-      line-height: 36px;
-      font-size: 16px;
-      color: #fff;
-    }
-  }
+<style>
 </style>

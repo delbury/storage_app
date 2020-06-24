@@ -50,11 +50,9 @@
 				movingFlag: null,
         movingIndex: null,
         startPoint: null,
-        startOffset: null,
-        offsetBase: 0,
         listStyle: {
           transform: 'translateY(0px)'
-        }
+        },
 			}
 		},
     methods: {
@@ -65,7 +63,6 @@
         if(ev.touches.length === 1) {
           this.movingFlag = id
           this.startPoint = ev.touches[0].pageY
-          this.startOffset = this.$refs.listItem[index].$el.offsetTop
           this.movingIndex = index
         }
       },
@@ -75,14 +72,15 @@
           
           const currentElTop = this.$refs.listItem[index].$el.offsetTop
           const offsetY = ev.touches[0].pageY - this.startPoint
+          const currentPosition = currentElTop + offsetY
           this.listStyle.transform = `translateY(${offsetY}px)`
           
-          console.log(offsetY)
+          console.log(currentPosition)
           
-          if(offsetY > 0 && index < this.list.length - 1) {
+          if(index < this.list.length - 1) {
             // 非最后一个元素下移
 
-          } else if(offsetY < 0 && index > 0) {
+          } else if(index > 0) {
             // 非第一个元素上移
 
           }
@@ -92,7 +90,6 @@
         this.movingIndex = null
         this.movingFlag = null
         this.startPoint = null
-        this.startOffset = null
         this.listStyle.transform = 'translateY(0px)'
         // this.releasing = true
       }
@@ -107,7 +104,7 @@
     position: relative;
     box-sizing: border-box;
     padding: 0 1rem;
-    height: 80rpx;
+    height: 40px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

@@ -9,11 +9,7 @@
 </template>
 
 <script>
-  import DyTab from '@/components/dy-tab/dy-tab.vue'
-  import SpaceSwiper from '@/components/space-swiper/space-swiper.vue'
-  
 	export default {
-    components: { DyTab, SpaceSwiper },
 		data() {
 			return {
         currentIndex: 0,
@@ -28,7 +24,7 @@
       // tab栏编辑按钮
 			handleTabEdit() {
         uni.navigateTo({
-          url: '/pages/furniture/furniture'
+          url: '/pages/furniture-edit/furniture-edit'
         })
       }
 		}

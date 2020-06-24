@@ -16,6 +16,8 @@
 	/*每个页面公共css */
   page {
     height: 100%;
+    color: $uni-text-color;
+    font-size: $uni-font-size-base;
   }
   .page {
     display: flex;
@@ -24,6 +26,10 @@
     
     .btn-tab-edit {
       font-size: $uni-font-size-icon;
+    }
+    
+    &.page-custom-tabbar {
+      height: calc(100% - #{$uni-custom-tabbar-height});
     }
   }
   .fw-b {

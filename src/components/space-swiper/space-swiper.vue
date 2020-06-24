@@ -9,12 +9,18 @@
       v-for="item in tabList"
       :key="item.id"
      >
-      <uni-grid :column="3" :showBorder="false">
+      <uni-grid :column="3" :showBorder="false" :highlight="false">
         <uni-grid-item
           v-for="(it, ind) in item.items"
           :key="ind"
         >
           <view class="grid-item">
+            <text
+              v-if="selectable"
+              class="btn-select iconfont"
+              :class="{'icon-seleted selected': selectedStatusList[ind]}"
+              @click="handleSelectItem(it, ind, item)"
+             ></text>
             <image :src="it.img" mode="aspectFit" style="max-width: 100%; max-height: 50%;"></image>
             <view class="main">{{it.title}}</view>
             <view class="sub">{{it.quantity}}个物品</view>
@@ -26,12 +32,8 @@
 </template>
 
 <script>
-  import UniGrid from '@/components/uni-grid/uni-grid.vue'
-  import UniGridItem from '@/components/uni-grid-item/uni-grid-item.vue'
-  
   export default {
     name: 'space-swiper',
-    components: { UniGrid, UniGridItem },
     props: {
       currentIndex: {
         type: Number,
@@ -49,13 +51,39 @@
       }
     },
     data() {
-      return {}
+      return {
+        selectedItems: [], // 已选项
+        selectedStatusList: {}, // 选择状态变量
+      }
+    },
+    
+    watch: {
+      selectedItems: {
+        immediate: true,
+        handler(val) {
+          this.$emit('update:selectedItems', val)
+        }
+      }
     },
     
     methods: {
       // 滑块改变
       handleSwiperChange(ev) {
+        this.selectedItems = []
+        this.selectedStatusList = {}
         this.$emit('update:currentIndex', ev.detail.current)
+      },
+      
+      // 选择
+      handleSelectItem(item, index, tab) {
+        const state = this.selectedStatusList[index]
+        if(!state) {
+          this.selectedItems.push(item)
+        } else {
+          const ind = this.selectedItems.findIndex(it => it === item)
+          this.selectedItems.splice(ind, 1)
+        }
+        this.$set(this.selectedStatusList, index, !state)
       }
     }
   }
@@ -68,6 +96,7 @@
     height: 100%;
     
     .grid-item {
+      position: relative;
       width: 100%;
       height: 100%;
       display: flex;
@@ -83,6 +112,30 @@
       .sub {
         font-size: $uni-font-size-sm;
         color: $uni-text-color-grey;
+      }
+      
+      .btn-select {
+        box-sizing: border-box;
+        position: absolute;
+        right: 0.25rem;
+        top: 0.25rem;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 40rpx;
+        height: 40rpx;
+        border: 1px solid $uni-border-color;
+        border-radius: 50%;
+        z-index: 1;
+        font-size: 30rpx;
+        font-weight: bold;
+        
+        &.selected {
+          background-color: $uni-color-success;
+          color: $uni-text-color-inverse;
+          box-shadow: $uni-box-shadow;
+          border: none;
+        }
       }
     }
   }

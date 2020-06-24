@@ -26,7 +26,11 @@ const store = new Vuex.Store({
       { label: '卧室', id: '3' }
     ]
   },
-  mutations: {},
+  mutations: {
+    exchangeOrderMutation(state, { index1, index2 }) {
+      [state.tabList[index1], state.tabList[index2]] = [state.tabList[index2], state.tabList[index1]]
+    }
+  },
   actions: {},
   getters: {
     tabList(state) {

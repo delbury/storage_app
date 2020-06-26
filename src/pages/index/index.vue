@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<view>
-			<navigator url="/pages/space/space">空间</navigator>
+			<navigator url="/pages/space/space">进入</navigator>
 		</view>
 	</view>
 </template>

@@ -1,34 +1,41 @@
 <template>
-  <swiper
-    class="page-space-swiper"
-    @change="handleSwiperChange"
-    :duration="300"
-    :current="currentIndex"
-   >
-    <swiper-item
-      v-for="item in tabList"
-      :key="item.id"
+  <view class="page-space-swiper">
+    <swiper
+      @change="handleSwiperChange"
+      :duration="200"
+      :current="currentIndex"
+      style="height: 100%;"
+      easing-function="linear"
      >
-      <uni-grid :column="3" :showBorder="false" :highlight="false">
-        <uni-grid-item
-          v-for="(it, ind) in item.items"
-          :key="ind"
-        >
-          <view class="grid-item">
-            <text
-              v-if="selectable"
-              class="btn-select iconfont"
-              :class="{'icon-seleted selected': selectedStatusList[ind]}"
-              @click="handleSelectItem(it, ind, item)"
-             ></text>
-            <image :src="it.img" mode="aspectFit" style="max-width: 100%; max-height: 50%;"></image>
-            <view class="main">{{it.title}}</view>
-            <view class="sub">{{it.quantity}}个物品</view>
-          </view>
-        </uni-grid-item>
-      </uni-grid>
-    </swiper-item>
-  </swiper>
+      <swiper-item
+        v-for="item in tabList"
+        :key="item.id"
+       >
+       <scroll-view :scroll-y="true" style="height: 100%;">
+        <view class="grid-list">
+          <block
+            v-for="(it, ind) in item.items"
+            :key="it.id"
+          >
+            <view
+              class="grid-item"
+              @tap="handleSelectItem(it, ind, item)"
+            >
+             <text
+               v-if="selectable"
+               class="btn-select iconfont"
+               :class="{'icon-seleted selected': selectedStatusList[ind]}"
+              ></text>
+             <image :src="it.img" mode="aspectFit" style="max-width: 100%; max-height: 50%;"></image>
+             <view class="main">{{it.title}}</view>
+             <view class="sub">{{it.quantity}}个物品</view>
+            </view>
+          </block>
+        </view>
+       </scroll-view>
+      </swiper-item>
+    </swiper>
+  </view>
 </template>
 
 <script>
@@ -76,6 +83,10 @@
       
       // 选择
       handleSelectItem(item, index, tab) {
+        if(!this.selectable) {
+          return
+        }
+        
         const state = this.selectedStatusList[index]
         if(!state) {
           this.selectedItems.push(item)
@@ -92,13 +103,18 @@
 <style lang="scss" scoped>
   .page-space-swiper {
     flex: 1;
-    width: 100%;
-    height: 100%;
+    // width: 100%;
+    // height: 100%;
     
+    .grid-list {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }    
     .grid-item {
       position: relative;
-      width: 100%;
-      height: 100%;
+      width: 250rpx;
+      height: 250rpx;
       display: flex;
       flex-direction: column;
       justify-content: center;

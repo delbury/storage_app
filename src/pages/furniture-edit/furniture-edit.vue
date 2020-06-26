@@ -1,7 +1,7 @@
 <template>
 	<view class="page page-custom-tabbar">
 		<dy-tab :tabList="tabList" :currentIndex.sync="currentIndex" plain>
-      <text class="btn-tab-edit iconfont icon-ellipsis fw-b text-color-primary" @click="handleTabEdit"></text>
+      <text class="btn-tab-edit iconfont icon-ellipsis fw-b text-color-primary" @tap="handleTabEdit"></text>
 		</dy-tab>
     
     <space-swiper

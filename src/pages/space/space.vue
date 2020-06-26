@@ -1,7 +1,7 @@
 <template>
 	<view class="page">
     <dy-tab :tabList="tabList" :currentIndex.sync="currentIndex">
-      <text class="btn-tab-edit iconfont icon-all-fill" @click="handleTabEdit"></text>
+      <text class="btn-tab-edit iconfont icon-all-fill" @tap="handleTabEdit"></text>
     </dy-tab>
     
     <space-swiper :tabList="tabList" :currentIndex.sync="currentIndex"></space-swiper>
@@ -27,7 +27,12 @@
           url: '/pages/furniture-edit/furniture-edit'
         })
       }
-		}
+		},
+    created() {
+      uni.navigateTo({
+        url: '/pages/space-edit/space-edit'
+      })
+    }
 	}
 </script>
 

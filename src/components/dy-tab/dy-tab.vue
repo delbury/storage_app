@@ -3,15 +3,18 @@
     <view class="dy-tab-container">
       <scroll-view :scroll-x="true" style="height: 100%" :show-scrollbar="false">
         <view class="dy-tab-items">
-          <view
-            class="dy-tab-title"
+          <block
             v-for="(tab, index) in tabList"
             :key="tab.id"
-            :class="{'actived': index === currentIndex}"
-            @click="changeTab(index)"
-           >
-            <text>{{tab.label}}</text>
-          </view>
+          >
+            <view
+              class="dy-tab-title"
+              :class="{'actived': index === currentIndex}"
+              @tap="changeTab(index)"
+             >
+              <text>{{tab.label}}</text>
+            </view>
+          </block>
         </view>
       </scroll-view>
     </view>
@@ -47,8 +50,20 @@
     methods: {
       // 改变tab
       changeTab(index) {
+        console.log('start')
         this.$emit('update:currentIndex', index)
         this.$emit('tab-change', index)
+        
+        return true
+      },
+      handleTouchend() {
+        console.log('end')
+      },
+      handleTouchmove() {
+        console.log('move')
+      },
+      handleTouchcancel() {
+        console.log('cancel')
       }
     }
   };
@@ -59,7 +74,7 @@
     justify-content: space-between;
     height: 72rpx;
     box-sizing: border-box;
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 1rem;
     font-size: $uni-font-size-sm;
     background-color: $uni-color-primary;
     color: $uni-text-color-inverse;
@@ -97,7 +112,7 @@
       //   margin-left: 0.5rem;
       // }
       &:not(:last-of-type) {
-        margin-right: 0.5rem;
+        margin-right: 1rem;
       }
 
       &.actived {

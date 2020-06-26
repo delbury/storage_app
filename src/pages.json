@@ -17,7 +17,7 @@
     //         // }
     //       }
     // 	}
-    // },
+    // }，
     {
       "path": "pages/space/space",
       "style": {
@@ -46,7 +46,11 @@
   "globalStyle": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "收纳",
-    "navigationBarBackgroundColor": "#0050b3"
+    "navigationBarBackgroundColor": "#0050b3",
+    // "disableScroll": true,
+    "app-plus": {
+      "bounce": "none"
+    }
   },
   "tabBar": {
     "color": "#999999",

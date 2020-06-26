@@ -11,24 +11,64 @@ const store = new Vuex.Store({
         id: '1',
         items: [
           {
+            id: '11',
             title: '厨房顶柜',
             quantity: 3,
             img: '/static/icons/tab-view-select.png'
           },
           {
+            id: '12',
             title: '厨房底柜',
             quantity: 0,
             img: '/static/icons/tab-view-select.png'
-          }
+          },
+          {
+            id: '13',
+            title: '厨房底柜',
+            quantity: 0,
+            img: '/static/icons/tab-view-select.png'
+          },
+          {
+            id: '14',
+            title: '厨房底柜',
+            quantity: 0,
+            img: '/static/icons/tab-view-select.png'
+          },
+          // ...Array.from({length: 16}, (v, k) => ({
+          //   id: 'id' + k,
+          //   title: '柜子',
+          //   quantity: 1,
+          //   img: '/static/icons/tab-view-select.png'
+          // }))
         ],
       },
-      { label: '厨房', id: '2' },
-      { label: '卧室', id: '3' }
+      { label: '厨房', id: '2', items: [] },
+      { label: '卧室', id: '3', items: [] },
+      { label: '厨房111', id: '4', items: [] },
+      // { label: '卧室222', id: '5', items: [] },
+      // { label: '厨房333', id: '6', items: [] },
+      // { label: '卧室444', id: '7', items: [] }
     ]
   },
   mutations: {
-    exchangeOrderMutation(state, { index1, index2 }) {
-      [state.tabList[index1], state.tabList[index2]] = [state.tabList[index2], state.tabList[index1]]
+    exchangeOrderMutation(state, { index1, index2, cb }) {
+      ;[state.tabList[index1], state.tabList[index2]] = [state.tabList[index2], state.tabList[index1]]
+      state.tabList = [...state.tabList]
+      
+      cb && cb()
+    },
+    
+    // 重新排序
+    reOrderMutation(state, { orders, cb }) {
+      state.tabList = orders.map(order => state.tabList[order])
+      
+      cb && cb()
+    },
+    
+    // 刷新
+    refreshMutation(state) {
+      console.log('this is refresh')
+      state.tabList = [...state.tabList]
     }
   },
   actions: {},

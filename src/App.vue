@@ -14,6 +14,7 @@
 
 <style lang="scss">
 	/*每个页面公共css */
+  @import url('./static/iconfont/iconfont.css');
   page {
     height: 100%;
     color: $uni-text-color;

@@ -1,9 +1,8 @@
 <template>
 	<view class="page page-custom-tabbar bg">
-    <scroll-view scroll-y="true" style="height: 100%;">
-      <dy-drag-list :list="tabList" style="margin-bottom: 20px;"></dy-drag-list>
+    <scroll-view :scroll-y="true" style="height: 100%;">
+      <dy-drag-list :list="tabList"></dy-drag-list>
       
-      <HM-dragSorts :list="tabList"></HM-dragSorts>
     </scroll-view>
     
 		<!-- 自定义tabbar -->
@@ -13,6 +12,7 @@
 
 <script>
   import { spaceEditButtons as editButtons } from '@/common/custom-tabbar-buttons.js'
+  // import { mapMutations } from 'vuex'
   
 	export default {
     computed: {

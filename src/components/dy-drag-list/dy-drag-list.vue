@@ -1,5 +1,5 @@
 <template>
-  <view class="edit-list">
+  <view v-if="showMainList" class="edit-list">
     <block
       v-for="(item, index) in list"
       :key="index"
@@ -27,7 +27,20 @@
       </view>
     </block>
   </view>
-  
+  <view v-else class="edit-list">
+    <block
+      v-for="(item, index) in tempList"
+      :key="'temp' + index"
+    >
+      <view class="edit-list-item">
+        <view class="label">{{ item.label }}</view>
+        <view class="icons">
+          <slot></slot>
+          <text class="bigger-area iconfont icon-category"></text>
+        </view>
+      </view>
+    </block>
+  </view>
 </template>
 
 <!-- <script module="drag" lang="wxs" src="./drag.wxs"></script> -->
@@ -36,7 +49,6 @@
   export default {
     data() {
       return {
-        editList: [],
         currentElement: null,
         startPoint: null,
         unitHeight: null,
@@ -139,15 +151,13 @@
       dragTouchend(ev, instance) {
         // 交换位置
         this.currentElement.setStyle({ transform: `translateY(${(this.newIndex - this.oldIndex) * 100}%) translateZ(0px)` })
-        instance.callMethod('reOrder', {
-          orders: this.epMap,
-        })
-        // setTimeout(() => {
+        instance.callMethod('switchList', { orders: this.epMap })
+        setTimeout(() => {
           this.listItems.forEach(item => {
             item.setStyle({})
             item.getState().offset = 0
           })
-        // }, 0)
+        }, 100)
         
         
         // instance.callMethod('reOrder','drag-over' {
@@ -197,7 +207,8 @@
     },
 		data() {
 			return {
-        // editList: []
+        showMainList: true,
+        tempList: [],
 			}
 		},
     computed: {
@@ -217,7 +228,17 @@
         exchangeOrder: 'exchangeOrderMutation',
         reOrder: 'reOrderMutation',
         // refresh: 'refreshMutation'
-      })
+      }),
+      
+      // 切换列表
+      switchList({ orders }) {
+        this.tempList = orders.map(order => this.list[order])
+        this.showMainList = false
+        this.reOrder({ orders })
+        setTimeout(() => {
+          this.showMainList = true
+        }, 200)
+      }
     }
 	}
 </script>

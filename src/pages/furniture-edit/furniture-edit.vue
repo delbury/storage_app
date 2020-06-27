@@ -12,7 +12,7 @@
     ></space-swiper>
     
     <!-- 自定义tabbar -->
-    <dy-tabbar :buttons="editButtons" @click-button="handleClickButton"></dy-tabbar>
+    <dy-tabbar :buttons="editButtons" @tap-button="handleTapButton"></dy-tabbar>
 	</view>
 </template>
 
@@ -50,7 +50,7 @@
       },
       
       // tabbar按钮
-      handleClickButton(key) {
+      handleTapButton(key) {
         console.log(key)
       }
 		}

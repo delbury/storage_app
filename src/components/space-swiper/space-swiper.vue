@@ -25,7 +25,7 @@
                v-if="selectable"
                class="btn-select iconfont"
                :class="{'icon-seleted selected': selectedStatusList[ind]}"
-              ></text>
+             ></text>
              <image :src="it.img" mode="aspectFit" style="max-width: 100%; max-height: 50%;"></image>
              <view class="main">{{it.title}}</view>
              <view class="sub">{{it.quantity}}个物品</view>

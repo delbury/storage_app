@@ -1,51 +1,61 @@
 <template>
   <view v-if="showMainList" class="edit-list">
-    <block
-      v-for="(item, index) in list"
-      :key="index"
+    <scroll-view
+      :scroll-y="true"
+      style="height: 100%;"
+      :scroll-with-animation="true"
+      :scroll-top="scrollTop"
+      @scroll="drag.scroll"
     >
-      <view
-        class="edit-list-item"
-        :class="{ ['item-id-' + item.id]: true }"
-        :data-id="item.id"
-        :data-index="index"
-        @transitionend="drag.handleTransitionend"
-       >
-        <view class="label">{{ item.label }}</view>
-        
-        <view class="icons">
-          <slot></slot>
-          <text
-            class="bigger-area iconfont icon-category"
-            v-if="moveable"
-            @touchstart.stop.prevent="drag.dragTouchstart"
-            @touchmove.stop.prevent="drag.dragTouchmove"
-            @touchend.stop.prevent="drag.dragTouchend"
-            :data-id="item.id"
-          ></text>
+      <block
+        v-for="(item, index) in list"
+        :key="index"
+      >
+        <view
+          class="edit-list-item"
+          :class="{ ['item-id-' + item.id]: true }"
+          :data-id="item.id"
+          :data-index="index"
+          @transitionend="drag.handleTransitionend"
+         >
+          <view class="label">{{ item.label }}</view>
+          
+          <slot class="icons" v-if="showSlot" :item="item"></slot>
+          <view v-else class="icons">
+            <text
+              class="bigger-area iconfont icon-category"
+              @touchstart.stop.prevent="drag.dragTouchstart"
+              @touchmove.stop.prevent="drag.dragTouchmove"
+              @touchend.stop.prevent="drag.dragTouchend"
+              :data-id="item.id"
+            ></text>
+          </view>
         </view>
-      </view>
-    </block>
+      </block>
+    </scroll-view>
   </view>
   <view v-else class="edit-list">
-    <block
-      v-for="(item, index) in tempList"
-      :key="'temp' + index"
-    >
-      <view class="edit-list-item">
-        <view class="label">{{ item.label }}</view>
-        <view class="icons">
-          <slot></slot>
-          <text class="bigger-area iconfont icon-category"></text>
+    <scroll-view :scroll-y="true" style="height: 100%;">
+      <block
+        v-for="(item, index) in tempList"
+        :key="'temp' + index"
+      >
+        <view class="edit-list-item">
+          <view class="label">{{ item.label }}</view>
+          <view class="icons">
+            <text class="bigger-area iconfont icon-category"></text>
+          </view>
         </view>
-      </view>
-    </block>
+      </block>
+    </scroll-view>
   </view>
 </template>
 
 <!-- <script module="drag" lang="wxs" src="./drag.wxs"></script> -->
 <script module="drag" lang="renderjs">
-  import store from '@/store/index.js'
+  // import store from '@/store/index.js'
+  import { constCustomTabbarHeigth as tbh } from '@/common/const.js'
+  
   export default {
     data() {
       return {
@@ -57,36 +67,73 @@
         currentMoving: false,
         oldIndex: null,
         newIndex: null,
-        epMap: []
+        epMap: [],
+        currentScrollTop: 0, // 实际滚动的距离
+        systemInfo: {}, // 系统信息
+        scrollOffset: 0, // 累积的滚动距离
       }
     },
+    // created() {
+    //   uni.getSystemInfo({
+    //     success: (info) => {
+    //       this.systemInfo.scrollHeight = info.windowHeight - tbh
+    //     }
+    //   })
+    // },
     methods: {    
-      handleTransitionend() {
-        console.log('transitionend')
-        this.currentElement.removeClass('releasing')
-        this.currentElement.removeClass('moving')
+      handleTransitionend(ev) {
+        // this.currentElement.removeClass('releasing')
+        // this.currentElement.removeClass('moving')
       },
+      
+      // 滚动监听
+      scroll(ev, instance) {
+        this.currentScrollTop = ev.detail.scrollTop
+      },
+      
       dragTouchstart(ev, instance) {
+        instance.callMethod('vibrate')
+        
         this.listItems = [...instance.selectAllComponents(`.edit-list-item`)]
         this.epMap = this.listItems.map((it, index) => index)
-        const id = ev.instance.getDataset().id.replace(/"/g, '')
+        const originId = ev.instance.getDataset().id
+        const id = originId.replace(/"/g, '')
+        this.listItems.forEach(item => {
+          if(item.getDataset().id !== originId) {
+            item.addClass('releasing')
+          }
+        })
         this.currentElement = instance.selectComponent(`.item-id-${id}`)
-        this.currentElement.removeClass('releasing')
-        this.currentElement.removeClass('moving')
         this.currentElement.addClass('moving')
+        this.currentElement.removeClass('releasing')
         this.startPoint = ev.touches[0].pageY
         this.unitHeight = this.currentElement.$el.offsetHeight
         this.oldIndex = +this.currentElement.getDataset().index
         this.newIndex = this.oldIndex
+        this.scrollOffset = 0
         
         return false
       },
       
       dragTouchmove(ev, instance) {
+        if(ev.touches.length !== 1) {
+          return
+        }
+        
+        // 是否滚动scroll-view
+        // let isScrolled = false
+        // const scrollOffset = this.unitHeight * 1.5
+        // if(ev.touches[0].pageY + this.unitHeight > this.systemInfo.scrollHeight) {
+        //   this.scrollOffset += scrollOffset
+        //   console.log(this.scrollOffset)
+        //   instance.callMethod('scrollTo', scrollOffset + this.currentScrollTop)
+        //   isScrolled = true
+        // }
+        
         const offsetY = ev.touches[0].pageY - this.startPoint
         const currentPosition = this.currentElement.$el.offsetTop + offsetY
         this.currentElement.setStyle({ 
-          transform: `translateY(${offsetY}px) translateZ(0px)`
+          transform: `translateY(${offsetY + this.scrollOffset}px) translateZ(0px)`
         })
         
         // 判断是否存在偏移
@@ -124,6 +171,8 @@
           (nextPosition - currentPosition) < 0.3 * this.unitHeight
         ) {
           // 上移
+          instance.callMethod('vibrate')
+          
           const index = this.epMap[this.newIndex + 1]
           // this.listItems[index + 1].addClass('releasing')
           nextElementState.offset = nextElementState.offset === 0 ? -1 : 0
@@ -136,6 +185,8 @@
           (currentPosition - prevPosition) < 0.3 * this.unitHeight
         ) {
           // 下移
+          instance.callMethod('vibrate')
+          
           const index = this.epMap[this.newIndex - 1]
           // this.listItems[index - 1].addClass('releasing')
           prevElementState.offset = prevElementState.offset === 0 ? 1 : 0
@@ -143,6 +194,8 @@
           
           ;[this.epMap[this.newIndex], this.epMap[this.newIndex - 1]] = [this.epMap[this.newIndex - 1], this.epMap[this.newIndex]]
           this.newIndex--
+          
+          instance.callMethod('vibrate')
         }
         
         return false
@@ -150,38 +203,21 @@
       
       dragTouchend(ev, instance) {
         // 交换位置
+        this.currentElement.addClass('releasing')
         this.currentElement.setStyle({ transform: `translateY(${(this.newIndex - this.oldIndex) * 100}%) translateZ(0px)` })
-        instance.callMethod('switchList', { orders: this.epMap })
+        
         setTimeout(() => {
-          this.listItems.forEach(item => {
-            item.setStyle({})
-            item.getState().offset = 0
-          })
-        }, 100)
-        
-        
-        // instance.callMethod('reOrder','drag-over' {
-        //   orders: this.epMap,
-        //   cb: () => {
-        //     console.log('cb')
-        //     this.listItems.forEach(item => {
-        //       item.setStyle({ transform: null })
-        //       item.getState().offset = 0
-        //     })
-        //     instance.callMethod('refresh')
-        //   }
-        // })
-        
-        // 过渡动画
-        // this.currentMoving = true
-        // if(this.hasOffset) {
-        //   this.currentElement.addClass('releasing')
-        //   this.currentElement.setStyle({ transform: null })
-        //   this.hasOffset = false
-        // } else {
-        //   this.currentElement.removeClass('moving')
-        // }
-        this.currentElement.removeClass('moving')
+          instance.callMethod('switchList', { orders: this.epMap })
+          setTimeout(() => {
+            this.listItems.forEach(item => {
+              item.setStyle({})
+              item.getState().offset = 0
+            })
+          }, 100)
+          
+          this.currentElement.removeClass('moving')
+          instance.callMethod('vibrate')
+        }, 200)
 
         return false
       },
@@ -203,12 +239,19 @@
       moveable: {
         type: Boolean,
         default: true
+      },
+      
+      // 是否显示slot
+      showSlot: {
+        type: Boolean,
+        default: false
       }
     },
 		data() {
 			return {
         showMainList: true,
         tempList: [],
+        scrollTop: 0, // 滚动距离
 			}
 		},
     computed: {
@@ -238,6 +281,17 @@
         setTimeout(() => {
           this.showMainList = true
         }, 200)
+      },
+      
+      // 振动
+      vibrate() {
+        uni.vibrateShort()
+      },
+      
+      // 滚动
+      scrollTo(offset) {
+        console.log(offset)
+        this.scrollTop = offset
       }
     }
 	}
@@ -246,6 +300,7 @@
 
 <style lang="scss" scoped>
 .edit-list {
+  height: 100%;
     
   .edit-list-item {
     position: relative;

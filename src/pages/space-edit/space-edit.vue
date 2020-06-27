@@ -1,12 +1,21 @@
 <template>
 	<view class="page page-custom-tabbar bg">
-    <scroll-view :scroll-y="true" style="height: 100%;">
-      <dy-drag-list :list="tabList"></dy-drag-list>
-      
-    </scroll-view>
+    <view class="full-h">
+      <dy-drag-list :list="tabList" :showSlot="showSlot">
+        <template v-slot="data">
+          <view class="custom-icons">
+            <text
+              class="btn-select bigger-area iconfont"
+              :class="{'icon-seleted selected': selectedItem[data.item.id]}"
+              @tap="handleSelect(data)"
+            ></text>
+          </view>
+        </template>
+      </dy-drag-list>
+    </view>
     
 		<!-- 自定义tabbar -->
-		<dy-tabbar :buttons="editButtons" @click-button="handleClickButton"></dy-tabbar>
+		<dy-tabbar :buttons="editButtons" @tap-button="handleTapButton"></dy-tabbar>
 	</view>
 </template>
 
@@ -26,15 +35,29 @@
     },
 		data() {
 			return {
-				mode: 'normal'
+				mode: 'normal',
+        showSlot: false, // 是否显示slot
+        selectedItem: {}
 			}
 		},
 		methods: {
-			handleClickButton(key) {
-        if(key === 'move-mode') {
-          this.mode = 'move'
+			handleTapButton(key) {
+        if(key === 'select') {
+          this.mode = 'select'
+          this.showSlot = true
         } else if(key === 'cancel') {
           this.mode = 'normal'
+          this.showSlot = false
+          this.selectedItem = {}
+        }
+      },
+      
+      // 变更选中状态
+      handleSelect(data) {
+        if(!this.selectedItem[data.item.id]) {
+          this.$set(this.selectedItem, data.item.id, true)
+        } else {
+          this.selectedItem[data.item.id] = false
         }
       }
 		}
@@ -44,5 +67,38 @@
 <style lang="scss" scoped>
   .bg {
     background-color: $uni-bg-color-grey-light;
+  }
+  .custom-icons {
+    @include flex-center();
+  }
+  // 多选按钮样式
+  /deep/ .btn-select {
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40rpx;
+    height: 40rpx;
+    border: 1px solid $uni-border-color;
+    border-radius: 50%;
+    z-index: 1;
+    font-size: 30rpx;
+    font-weight: bold;
+    
+    &.selected {
+      background-color: $uni-color-success;
+      color: $uni-text-color-inverse;
+      box-shadow: $uni-box-shadow;
+      border: none;
+    }
+    
+    &.bigger-area::after {
+      position: absolute;
+      content: "";
+      display: block;
+      width: 70rpx;
+      height: 70rpx;
+      background-color: transparent;
+    }
   }
 </style>

@@ -44,14 +44,19 @@ const spaceAllButtons = [
     key: 'edit'
   },
   {
-    label: '移动',
+    label: '多选',
     iconClass: 'icon-copy',
-    key: 'move-mode'
+    key: 'select'
+  },
+  {
+    label: '删除',
+    iconClass: 'icon-ashbin',
+    key: 'delete'
   },
   {
     label: '移动',
     iconClass: 'icon-copy',
-    key: 'move-confirm'
+    key: 'move'
   },
   {
     label: '取消',
@@ -62,5 +67,5 @@ const spaceAllButtons = [
 
 export const spaceEditButtons = {
   normal: spaceAllButtons.filter((item, index) => index < 3),
-  move: spaceAllButtons.filter((item, index) => index > 2),
+  select: spaceAllButtons.filter((item, index) => index > 2),
 }

@@ -1,6 +1,6 @@
 <template>
 	<view class="custom-tabbar">
-		<view class="list" v-for="item in buttons" :key="item.key" @click="handleItemClick(item.key)">
+		<view class="list" v-for="item in buttons" :key="item.key" @tap="handleItemTap(item.key)">
       <text class="iconfont" :class="[item.iconClass]"></text>
       <view class="label">{{item.label}}</view>
 		</view>
@@ -25,8 +25,8 @@
 			}
 		},
 		methods: {
-			handleItemClick(key) {
-        this.$emit('click-button', key)
+			handleItemTap(key) {
+        this.$emit('tap-button', key)
       }
 		}
 	}

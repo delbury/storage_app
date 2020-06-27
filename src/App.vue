@@ -39,4 +39,7 @@
   .text-color-primary {
     color: $uni-color-primary;
   }
+  .full-h {
+    height: 100%;
+  }
 </style>

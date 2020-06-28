@@ -1,7 +1,7 @@
 <template>
   <view v-if="showMainList" class="edit-list">
     <scroll-view
-      :scroll-y="true"
+      :scroll-y="scrollable"
       style="height: 100%;"
       :scroll-with-animation="true"
       :scroll-top="scrollTop"
@@ -92,7 +92,7 @@
       },
       
       dragTouchstart(ev, instance) {
-        instance.callMethod('vibrate')
+        instance.callMethod('changeScrollState', false)
         
         this.listItems = [...instance.selectAllComponents(`.edit-list-item`)]
         this.epMap = this.listItems.map((it, index) => index)
@@ -194,8 +194,6 @@
           
           ;[this.epMap[this.newIndex], this.epMap[this.newIndex - 1]] = [this.epMap[this.newIndex - 1], this.epMap[this.newIndex]]
           this.newIndex--
-          
-          instance.callMethod('vibrate')
         }
         
         return false
@@ -216,7 +214,7 @@
           }, 100)
           
           this.currentElement.removeClass('moving')
-          instance.callMethod('vibrate')
+          instance.callMethod('changeScrollState', true)
         }, 200)
 
         return false
@@ -225,15 +223,13 @@
   }
 </script>
 <script>
-  import { mapMutations } from 'vuex'
-  import store from '@/store/index.js'
 	export default {
     name: 'dy-drag-list',
     props: {
-      // list: {
-      //   type: Array,
-      //   default: () => ([])
-      // },
+      list: {
+        type: Array,
+        default: () => ([])
+      },
       
       // 是否有移动按钮
       moveable: {
@@ -252,13 +248,9 @@
         showMainList: true,
         tempList: [],
         scrollTop: 0, // 滚动距离
+        scrollable: true, // 可滚动
 			}
 		},
-    computed: {
-      list() {
-        return this.$store.state.tabList
-      },
-    },
     mounted() {
       const query = uni.createSelectorQuery().in(this)
       query.selectAll('.edit-list-item').boundingClientRect(res => {
@@ -267,17 +259,13 @@
         
     },
     methods: {
-      ...mapMutations({
-        exchangeOrder: 'exchangeOrderMutation',
-        reOrder: 'reOrderMutation',
-        // refresh: 'refreshMutation'
-      }),
-      
       // 切换列表
       switchList({ orders }) {
         this.tempList = orders.map(order => this.list[order])
         this.showMainList = false
-        this.reOrder({ orders })
+        
+        this.$emit('order-change', orders)
+        
         setTimeout(() => {
           this.showMainList = true
         }, 200)
@@ -292,6 +280,12 @@
       scrollTo(offset) {
         console.log(offset)
         this.scrollTop = offset
+      },
+      
+      // 开始、结束拖动
+      changeScrollState(flag) {
+        this.vibrate() // 振动
+        this.scrollable = flag // 锁定滚动
       }
     }
 	}

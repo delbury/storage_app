@@ -1,7 +1,7 @@
 <template>
 	<view class="page page-custom-tabbar bg">
     <view class="full-h">
-      <dy-drag-list :list="tabList" :showSlot="showSlot">
+      <dy-drag-list :list="tabList" :showSlot="showSlot" @order-change="handleOrderChange">
         <template v-slot="data">
           <view class="custom-icons">
             <text
@@ -21,7 +21,7 @@
 
 <script>
   import { spaceEditButtons as editButtons } from '@/common/custom-tabbar-buttons.js'
-  // import { mapMutations } from 'vuex'
+  import { mapMutations } from 'vuex'
   
 	export default {
     computed: {
@@ -41,6 +41,10 @@
 			}
 		},
 		methods: {
+      ...mapMutations({
+        reOrder: 'reOrderMutation',
+      }),
+      
 			handleTapButton(key) {
         if(key === 'select') {
           this.mode = 'select'
@@ -59,6 +63,11 @@
         } else {
           this.selectedItem[data.item.id] = false
         }
+      },
+      
+      // 排序改变
+      handleOrderChange(orders) {
+        this.reOrder({ orders })
       }
 		}
 	}

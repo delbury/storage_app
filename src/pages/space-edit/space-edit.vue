@@ -14,6 +14,9 @@
       </dy-drag-list>
     </view>
     
+    <!-- 弹框 -->
+    <popup-add ref="popupAdd"></popup-add>
+    
 		<!-- 自定义tabbar -->
 		<dy-tabbar :buttons="editButtons" @tap-button="handleTapButton"></dy-tabbar>
 	</view>
@@ -22,8 +25,10 @@
 <script>
   import { spaceEditButtons as editButtons } from '@/common/custom-tabbar-buttons.js'
   import { mapMutations } from 'vuex'
+  import PopupAdd from './popup-add.vue'
   
 	export default {
+    components: { PopupAdd },
     computed: {
       tabList() {
         return this.$store.state.tabList
@@ -47,12 +52,20 @@
       
 			handleTapButton(key) {
         if(key === 'select') {
+          // 多选
           this.mode = 'select'
           this.showSlot = true
+          
         } else if(key === 'cancel') {
+          // 取消多选
           this.mode = 'normal'
           this.showSlot = false
           this.selectedItem = {}
+          
+        } else if(key === 'add') {
+          // 添加
+          
+          this.$refs.popupAdd.open()
         }
       },
       

@@ -40,6 +40,21 @@
       "path": "pages/space-edit/space-edit",
       "style": {
         "navigationBarTitleText": "空间编辑"
+        // "app-plus": {
+        //   "subNVues": [
+        //     {
+        //       "id": "space-edit-add",
+        //       "path": "pages/space-edit/popup-add",
+        //       "type": "popup",
+        //       "style": {
+        //         "width": "86%",
+        //         "height": "40%",
+        //         "left": "7%",
+        //         "top": "30%"
+        //       }
+        //     }
+        //   ]
+        // }
       }
     }
   ],

@@ -14,6 +14,7 @@
 
 <style lang="scss">
 	/*每个页面公共css */
+  /* #ifndef APP-NVUE */
   @import url('./static/iconfont/iconfont.css');
   page {
     height: 100%;
@@ -42,4 +43,5 @@
   .full-h {
     height: 100%;
   }
+  /* #endif */
 </style>

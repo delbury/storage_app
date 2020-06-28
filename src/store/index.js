@@ -3,6 +3,10 @@ import Vue from 'vue'
 
 Vue.use(Vuex)
 
+const randomId = () => {
+  return [Date.now(), Math.floor(Math.random() * 100000)].join('')
+}
+
 const store = new Vuex.Store({
   state: {
     tabList: [
@@ -44,24 +48,6 @@ const store = new Vuex.Store({
       },
       { label: '厨房', id: '2', items: [] },
       { label: '卧室', id: '3', items: [] },
-      { label: '厨房111', id: '4', items: [] },
-      { label: '卧室222', id: '5', items: [] },
-      { label: '厨房333', id: '6', items: [] },
-      { label: '卧室444', id: '7', items: [] },
-      { label: '厨房555', id: '8', items: [] },
-      { label: '卧室666', id: '9', items: [] },
-      { label: '厨房777', id: '11', items: [] },
-      { label: '卧室888', id: '12', items: [] },
-      { label: '厨房555', id: '13', items: [] },
-      { label: '卧室666', id: '14', items: [] },
-      { label: '1厨房777', id: '15', items: [] },
-      { label: '2卧室888', id: '16', items: [] },
-      { label: '3厨房777', id: '22', items: [] },
-      { label: '4卧室888', id: '23', items: [] },
-      { label: '5厨房555', id: '24', items: [] },
-      { label: '6卧室666', id: '25', items: [] },
-      { label: '7厨房777', id: '26', items: [] },
-      { label: '8卧室888', id: '27', items: [] }
     ]
   },
   mutations: {
@@ -81,8 +67,19 @@ const store = new Vuex.Store({
     
     // 刷新
     refreshMutation(state) {
-      console.log('this is refresh')
       state.tabList = [...state.tabList]
+    },
+    
+    // 新增
+    addNewTabMutation(state, data) {
+      if(!data.label) {
+        return false
+      }
+      state.tabList.push({
+        label: data.label,
+        id: randomId(),
+        items: []
+      })
     }
   },
   actions: {},

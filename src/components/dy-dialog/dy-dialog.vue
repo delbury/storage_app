@@ -15,7 +15,7 @@
       </view>
       <view class="footer">
         <view v-if="footerCancel" class="btn cancel" @tap="close">取消</view>
-        <view class="btn confirm">确认</view>
+        <view class="btn confirm" @tap="confirm">确认</view>
       </view>
     </view>
   </uni-popup>
@@ -68,7 +68,7 @@
       
       // 确认
       confirm() {
-        this.$emit('confirm')
+        this.$emit('confirm', () => this.close())
       },
       
       // 弹框状态改变

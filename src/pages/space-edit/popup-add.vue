@@ -1,5 +1,5 @@
 <template>
-  <dy-dialog ref="dyDialog" @change="handleDialogChange">
+  <dy-dialog ref="dyDialog" @change="handleDialogChange" @confirm="handleDialogConfirm">
     <view class="body">
       <view class="input-box">
         <input
@@ -9,7 +9,7 @@
           placeholder="请输入名称"
           placeholder-class="placeholder"
           confirm-type="done"
-          @confirm="handleConfirm"
+          @confirm="handleKeyboardConfirm"
           :cursor-spacing="20"
         />
       </view>
@@ -19,6 +19,7 @@
 
 <script>
   import DyDialogMixin from '@/components/dy-dialog/dy-dialog-mixin.js'
+  import { mapMutations } from 'vuex'
   export default {
     mixins: [DyDialogMixin],
     data() {
@@ -29,7 +30,10 @@
       }
     },
     methods: {
-      handleConfirm() {
+      ...mapMutations({
+        addNewTab: 'addNewTabMutation'
+      }),
+      handleKeyboardConfirm() {
         uni.hideKeyboard()
       },
       
@@ -38,6 +42,18 @@
         if(!ev.show) {
           this.resetForm()
           this.inputWidth = '5em'
+        }
+      },
+      
+      // 对话框确认
+      handleDialogConfirm(cb) {
+        if(this.form.inputValue) {
+          this.addNewTab({
+            label: this.form.inputValue
+          })
+          cb && cb()
+        } else {
+          //
         }
       }
     }

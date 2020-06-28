@@ -66,6 +66,7 @@ const spaceAllButtons = [
 ]
 
 export const spaceEditButtons = {
-  normal: spaceAllButtons.filter((item, index) => index < 3),
-  select: spaceAllButtons.filter((item, index) => index > 2),
+  normal: spaceAllButtons.filter((item, index) => index <= 2),
+  select: spaceAllButtons.filter((item, index) => index >= 3 && index <= 5),
+  edit: spaceAllButtons.filter((item, index) => index === 5),
 }

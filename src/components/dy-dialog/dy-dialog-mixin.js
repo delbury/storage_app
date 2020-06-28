@@ -1,12 +1,12 @@
 export default {
   data() {
     return {
-      form: {},
-      _form: {}
+      initParams: {},
+      _initParams: {}
     }
   },
   created() {
-    this._form = JSON.parse(JSON.stringify(this.form))
+    this._initParams = JSON.parse(JSON.stringify(this.initParams))
   },
   methods: {
     open() {
@@ -16,8 +16,8 @@ export default {
       this.$refs.dyDialog && this.$refs.dyDialog.close()
     },
     resetForm() {
-      for(let key in this.form) {
-        this.form[key] = this._form[key]
+      for(let key in this.initParams) {
+        this.initParams[key] = this._initParams[key]
       }
     }
   }

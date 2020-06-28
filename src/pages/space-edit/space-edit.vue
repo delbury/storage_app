@@ -3,12 +3,16 @@
     <view class="full-h">
       <dy-drag-list :list="tabList" :showSlot="showSlot" @order-change="handleOrderChange">
         <template v-slot="data">
-          <view class="custom-icons">
+          <view v-if="mode === 'select'" class="custom-icons">
             <text
               class="btn-select bigger-area iconfont"
               :class="{'icon-seleted selected': selectedItem[data.item.id]}"
               @tap="handleSelect(data)"
             ></text>
+          </view>
+          <view v-else-if="mode === 'edit'" class="custom-icons">
+            <text class="btn-tap iconfont icon-ashbin" @tap="handleDelete(data)"></text>
+            <text class="btn-tap iconfont icon-editor" @tap="handleEdit(data)"></text>
           </view>
         </template>
       </dy-drag-list>
@@ -48,6 +52,7 @@
 		methods: {
       ...mapMutations({
         reOrder: 'reOrderMutation',
+        deleteTab: 'deleteTabMutation'
       }),
       
 			handleTapButton(key) {
@@ -57,15 +62,39 @@
           this.showSlot = true
           
         } else if(key === 'cancel') {
-          // 取消多选
+          // 取消
           this.mode = 'normal'
           this.showSlot = false
           this.selectedItem = {}
           
         } else if(key === 'add') {
           // 添加
-          
           this.$refs.popupAdd.open()
+          
+        } else if(key === 'edit') {
+          // 编辑
+          this.mode = 'edit'
+          this.showSlot = true
+          
+        } else if(key === 'delete') {
+          // 删除
+          const ids = []
+          for(let id in this.selectedItem) {
+            if(this.selectedItem[id]) {
+              ids.push(id)
+            }
+          }
+          if(ids.length) {
+            uni.showModal({
+              title: '提示',
+              content: '确认删除改空间？',
+              success: res => {
+                if(res.confirm) {
+                  this.deleteTab(ids)
+                }
+              }
+            })
+          }
         }
       },
       
@@ -76,6 +105,16 @@
         } else {
           this.selectedItem[data.item.id] = false
         }
+      },
+      
+      // 行内删除
+      handleDelete(data) {
+        console.log(data.item.id)
+      },
+      
+      // 行内编辑
+      handleEdit(data) {
+        this.$refs.popupAdd.openWithParams(data.item)
       },
       
       // 排序改变
@@ -90,9 +129,9 @@
   .bg {
     background-color: $uni-bg-color-grey-light;
   }
-  .custom-icons {
-    @include flex-center();
-  }
+  // .custom-icons {
+  //   @include flex-center();
+  // }
   // 多选按钮样式
   /deep/ .btn-select {
     box-sizing: border-box;
@@ -121,6 +160,21 @@
       width: 70rpx;
       height: 70rpx;
       background-color: transparent;
+    }
+  }
+  /deep/ .btn-tap {
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 50%;
+    z-index: 1;
+    font-size: 40rpx;
+    
+    &:not(:last-of-type) {
+      margin-right: 1.5em;
     }
   }
 </style>

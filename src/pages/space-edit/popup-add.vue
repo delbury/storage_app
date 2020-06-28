@@ -1,11 +1,16 @@
 <template>
-  <dy-dialog ref="dyDialog" @change="handleDialogChange" @confirm="handleDialogConfirm">
+  <dy-dialog
+    ref="dyDialog"
+    @change="handleDialogChange"
+    @confirm="handleDialogConfirm"
+    :title="title"
+  >
     <view class="body">
       <view class="input-box">
         <input
           class="input"
           type="text"
-          v-model.trim="form.inputValue"
+          v-model.trim="initParams.inputValue"
           placeholder="请输入名称"
           placeholder-class="placeholder"
           confirm-type="done"
@@ -24,14 +29,27 @@
     mixins: [DyDialogMixin],
     data() {
       return {
-        form: {
-          inputValue: ''
+        initParams: {
+          inputValue: '',
+          edit: false,
+          currentParams: null
         },
+      }
+    },
+    computed: {
+      title() {
+        switch(this.initParams.edit) {
+          case true:
+            return '编辑空间'
+          default:
+            return '添加空间'
+        }
       }
     },
     methods: {
       ...mapMutations({
-        addNewTab: 'addNewTabMutation'
+        addNewTab: 'addNewTabMutation',
+        editTab: 'editTabMutation'
       }),
       handleKeyboardConfirm() {
         uni.hideKeyboard()
@@ -47,14 +65,33 @@
       
       // 对话框确认
       handleDialogConfirm(cb) {
-        if(this.form.inputValue) {
-          this.addNewTab({
-            label: this.form.inputValue
-          })
-          cb && cb()
+        if(this.initParams.inputValue) {
+          if(this.initParams.edit) {
+            // 编辑
+            this.editTab({
+              label: this.initParams.inputValue,
+              id: this.initParams.currentParams.id
+            })
+            cb && cb()
+            
+          } else {
+            // 新增
+            this.addNewTab({
+              label: this.initParams.inputValue
+            })
+            cb && cb()
+          }
         } else {
           //
         }
+      },
+      
+      // 回显
+      openWithParams(params) {
+        this.initParams.currentParams = params
+        this.initParams.edit = true
+        this.initParams.inputValue = params.label
+        this.open()
       }
     }
   }

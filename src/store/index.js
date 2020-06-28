@@ -80,6 +80,17 @@ const store = new Vuex.Store({
         id: randomId(),
         items: []
       })
+    },
+    
+    // 编辑
+    editTabMutation(state, data) {
+      const index = state.tabList.findIndex(it => it.id === data.id)
+      state.tabList[index].label = data.label
+    },
+    
+    // 删除
+    deleteTabMutation(state, ids) {
+      state.tabList = state.tabList.filter(it => !ids.includes(it.id))
     }
   },
   actions: {},

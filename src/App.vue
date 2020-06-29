@@ -37,8 +37,17 @@
   .fw-b {
     font-weight: bold;
   }
+  .text-color-info {
+    color: $uni-color-info;
+  }
   .text-color-primary {
     color: $uni-color-primary;
+  }
+  .text-color-warning {
+    color: $uni-color-warning;
+  }
+  .text-color-success {
+    color: $uni-color-success;
   }
   .full-h {
     height: 100%;

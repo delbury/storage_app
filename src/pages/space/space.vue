@@ -1,11 +1,11 @@
 <template>
 	<view class="page">
     <dy-navbar title="空间"></dy-navbar>
-    <dy-tab :tabList="tabList" :currentIndex.sync="currentIndex">
+    <dy-tab :tabList="spaceList" :currentIndex.sync="currentIndex">
       <text class="btn-tab-edit iconfont icon-all-fill" @tap="handleTabEdit"></text>
     </dy-tab>
     
-    <space-swiper :tabList="tabList" :currentIndex.sync="currentIndex"></space-swiper>
+    <space-swiper :spaceList="spaceList" :currentIndex.sync="currentIndex"></space-swiper>
 	</view>
 </template>
 
@@ -17,8 +17,8 @@
        }
 		},
     computed: {
-      tabList() {
-        return this.$store.state.tabList
+      spaceList() {
+        return this.$store.state.spaceList
       }
     },
 		methods: {

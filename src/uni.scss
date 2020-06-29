@@ -15,10 +15,11 @@
 /* 颜色变量 */
 
 /* 行为相关颜色 */
-$uni-color-primary: #0050b3;
-$uni-color-success: #237804;
-$uni-color-warning: #f0ad4e;
-$uni-color-error: #dd524d;
+$uni-color-primary: #1890ff;
+$uni-color-success: #389e0d;
+$uni-color-warning: #d48806;
+$uni-color-error: #f5222d;
+$uni-color-info: #8c8c8c;
 
 /* 文字基本颜色 */
 $uni-text-color: #333;//基本色
@@ -84,7 +85,7 @@ $uni-font-size-paragraph:30upx;
 /* 阴影 */
 $uni-box-shadow: 0 0 5px 0.5px $uni-shadow-color;
 
-/* 阴影 */
+/* 边框 */
 $uni-border-base: 1rpx solid $uni-border-color;
 
 /* 自定义tabbar相关 */

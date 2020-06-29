@@ -62,7 +62,7 @@
   "globalStyle": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "收纳",
-    "navigationBarBackgroundColor": "#0050b3",
+    "navigationBarBackgroundColor": "#1890ff",
     // "disableScroll": true,
     "app-plus": {
       "bounce": "none"

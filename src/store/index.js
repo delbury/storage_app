@@ -12,9 +12,12 @@ const randomId = () => {
 
 const store = new Vuex.Store({
   state: {
+    currentHome: { label: '豪宅', id: '1' },
+    
     // 全部home
-    homes: [
-      { label: '家', id: '1' }
+    homeList: [
+      { label: '豪宅很贵很大很高啥都有名字又长', id: '1' },
+      { label: '别墅', id: '2' }
     ],
     
     // 未分配的物品
@@ -30,7 +33,7 @@ const store = new Vuex.Store({
     allGoods: [],
     
     // 当前同一个home下不同空间
-    tabList: [
+    spaceList: [
       {
         label: '客厅',
         id: '1',

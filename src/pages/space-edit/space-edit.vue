@@ -1,7 +1,7 @@
 <template>
 	<view class="page page-custom-tabbar bg">
     <view class="full-h">
-      <dy-drag-list :list="tabList" :showSlot="showSlot" @order-change="handleOrderChange">
+      <dy-drag-list :list="spaceList" :showSlot="showSlot" @order-change="handleOrderChange">
         <template v-slot="data">
           <view v-if="mode === 'select'" class="custom-icons">
             <text
@@ -34,8 +34,8 @@
 	export default {
     components: { PopupAdd },
     computed: {
-      tabList() {
-        return this.$store.state.tabList
+      spaceList() {
+        return this.$store.state.spaceList
       },
       
       editButtons() {

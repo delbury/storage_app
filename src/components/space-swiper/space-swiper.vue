@@ -8,7 +8,7 @@
       easing-function="linear"
      >
       <swiper-item
-        v-for="item in tabList"
+        v-for="item in spaceList"
         :key="item.id"
        >
        <scroll-view :scroll-y="true" style="height: 100%;">
@@ -46,7 +46,7 @@
         type: Number,
         default: 0
       },
-      tabList: {
+      spaceList: {
         type: Array,
         default: () => ([])
       },

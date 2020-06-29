@@ -1,11 +1,11 @@
 <template>
 	<view class="page page-custom-tabbar">
-    <dy-tab :tabList="tabList" :currentIndex.sync="currentIndex" plain>
+    <dy-tab :tabList="spaceList" :currentIndex.sync="currentIndex" plain>
       <text class="btn-tab-edit iconfont icon-ellipsis fw-b text-color-primary" @tap="handleTabEdit"></text>
     </dy-tab>
     
     <space-swiper
-      :tabList="tabList"
+      :spaceList="spaceList"
       :currentIndex.sync="currentIndex"
       selectable
       :selectedItems.sync="selectedItems"
@@ -26,8 +26,8 @@
 			}
 		},
     computed: {
-      tabList() {
-        return this.$store.state.tabList
+      spaceList() {
+        return this.$store.state.spaceList
       },
       
       editButtons() {

@@ -10,6 +10,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-set:before {
+  content: "\e78e";
+}
+
 .icon-editor:before {
   content: "\e6f6";
 }

@@ -21,7 +21,8 @@
     {
       "path": "pages/space/space",
       "style": {
-        "navigationBarTitleText": "空间"
+        "navigationBarTitleText": "空间",
+        "navigationStyle": "custom"
       }
     },
     {

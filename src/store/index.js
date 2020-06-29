@@ -1,5 +1,8 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
+import mutations from './mutations.js'
+import getters from './getters.js'
+import actions from './actions.js'
 
 Vue.use(Vuex)
 
@@ -9,6 +12,24 @@ const randomId = () => {
 
 const store = new Vuex.Store({
   state: {
+    // 全部home
+    homes: [
+      { label: '家', id: '1' }
+    ],
+    
+    // 未分配的物品
+    UnassignedGoods: [],
+    
+    // 未分配的家具
+    UnassignedFurnitures: [],
+    
+    // 全部家具
+    allFurnitures: [],
+    
+    // 全部物品
+    allGoods: [],
+    
+    // 当前同一个home下不同空间
     tabList: [
       {
         label: '客厅',
@@ -50,55 +71,9 @@ const store = new Vuex.Store({
       { label: '卧室', id: '3', items: [] },
     ]
   },
-  mutations: {
-    exchangeOrderMutation(state, { index1, index2, cb }) {
-      ;[state.tabList[index1], state.tabList[index2]] = [state.tabList[index2], state.tabList[index1]]
-      state.tabList = [...state.tabList]
-      
-      cb && cb()
-    },
-    
-    // 重新排序
-    reOrderMutation(state, { orders, cb }) {
-      state.tabList = orders.map(order => state.tabList[order])
-      
-      cb && cb()
-    },
-    
-    // 刷新
-    refreshMutation(state) {
-      state.tabList = [...state.tabList]
-    },
-    
-    // 新增
-    addNewTabMutation(state, data) {
-      if(!data.label) {
-        return false
-      }
-      state.tabList.push({
-        label: data.label,
-        id: randomId(),
-        items: []
-      })
-    },
-    
-    // 编辑
-    editTabMutation(state, data) {
-      const index = state.tabList.findIndex(it => it.id === data.id)
-      state.tabList[index].label = data.label
-    },
-    
-    // 删除
-    deleteTabMutation(state, ids) {
-      state.tabList = state.tabList.filter(it => !ids.includes(it.id))
-    }
-  },
-  actions: {},
-  getters: {
-    tabList(state) {
-      return state.tabList
-    }
-  }
+  mutations,
+  actions,
+  getters
 })
 
 export default store

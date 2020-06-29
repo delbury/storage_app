@@ -19,12 +19,17 @@
         />
       </view>
     </view>
+    
+    <tui-toast ref="toast"></tui-toast>
   </dy-dialog>
 </template>
 
 <script>
   import DyDialogMixin from '@/components/dy-dialog/dy-dialog-mixin.js'
   import { mapMutations } from 'vuex'
+  import validateRules from '@/common/validate-rules.js'
+  const validate = require('@/common/tui-validation.js').validation
+  
   export default {
     mixins: [DyDialogMixin],
     data() {
@@ -63,26 +68,42 @@
         }
       },
       
+      // 构造检验参数
+      validateParams() {
+        const formData = {
+          label: this.initParams.inputValue
+        }
+        const rules = [
+          validateRules.label
+        ]
+        
+        return [formData, rules]
+      },
+      
       // 对话框确认
       handleDialogConfirm(cb) {
-        if(this.initParams.inputValue) {
-          if(this.initParams.edit) {
-            // 编辑
-            this.editTab({
-              label: this.initParams.inputValue,
-              id: this.initParams.currentParams.id
-            })
-            cb && cb()
-            
-          } else {
-            // 新增
-            this.addNewTab({
-              label: this.initParams.inputValue
-            })
-            cb && cb()
-          }
+        // 校验
+        const validateRes = validate(...this.validateParams())
+        if(validateRes) {
+          return this.$refs.toast.show({
+            title: validateRes
+          })
+        }
+        
+        if(this.initParams.edit) {
+          // 编辑
+          this.editTab({
+            label: this.initParams.inputValue,
+            id: this.initParams.currentParams.id
+          })
+          cb && cb()
+          
         } else {
-          //
+          // 新增
+          this.addNewTab({
+            label: this.initParams.inputValue
+          })
+          cb && cb()
         }
       },
       

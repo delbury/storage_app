@@ -1,26 +1,28 @@
 <template>
-  <view class="dy-tab" :class="{'plain': plain}">
-    <view class="dy-tab-container">
-      <scroll-view :scroll-x="true" style="height: 100%" :show-scrollbar="false">
-        <view class="dy-tab-items">
-          <block
-            v-for="(tab, index) in tabList"
-            :key="tab.id"
-          >
-            <view
-              class="dy-tab-title"
-              :class="{'actived': index === currentIndex}"
-              @tap="changeTab(index)"
-             >
-              <text>{{tab.label}}</text>
-            </view>
-          </block>
-        </view>
-      </scroll-view>
-    </view>
-    <view class="dy-tab-slot">
-      <slot></slot>
-    </view>
+  <view>
+    <view class="dy-tab" :class="{'plain': plain}">
+      <view class="dy-tab-container">
+        <scroll-view :scroll-x="true" style="height: 100%" :show-scrollbar="false">
+          <view class="dy-tab-items">
+            <block
+              v-for="(tab, index) in tabList"
+              :key="tab.id"
+            >
+              <view
+                class="dy-tab-title"
+                :class="{'actived': index === currentIndex}"
+                @tap="changeTab(index)"
+               >
+                <text>{{tab.label}}</text>
+              </view>
+            </block>
+          </view>
+        </scroll-view>
+      </view>
+      <view class="dy-tab-slot">
+        <slot></slot>
+      </view>
+    </view> 
   </view>
 </template>
 <script>
@@ -72,7 +74,7 @@
   .dy-tab {
     display: flex;
     justify-content: space-between;
-    height: 72rpx;
+    // height: 72rpx;
     box-sizing: border-box;
     padding: 0.25rem 1rem;
     font-size: $uni-font-size-sm;

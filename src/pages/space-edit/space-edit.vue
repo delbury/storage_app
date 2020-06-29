@@ -87,7 +87,7 @@
           if(ids.length) {
             uni.showModal({
               title: '提示',
-              content: '确认删除改空间？',
+              content: '确认删除该空间？',
               success: res => {
                 if(res.confirm) {
                   this.deleteTab(ids)
@@ -109,7 +109,15 @@
       
       // 行内删除
       handleDelete(data) {
-        console.log(data.item.id)
+        uni.showModal({
+          title: '提示',
+          content: '确认删除该空间？',
+          success: res => {
+            if(res.confirm) {
+              this.deleteTab([data.item.id])
+            }
+          }
+        })
       },
       
       // 行内编辑

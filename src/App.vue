@@ -24,7 +24,7 @@
 <style lang="scss">
 	/*每个页面公共css */
   /* #ifndef APP-NVUE */
-  @import url('./static/iconfont/iconfont.css');
+  @import url('@/static/iconfont/iconfont.css');
   page {
     height: 100%;
     color: $uni-text-color;
@@ -82,5 +82,6 @@
   .divider {
     border-bottom: $uni-border-base;
   }
+  
   /* #endif */
 </style>

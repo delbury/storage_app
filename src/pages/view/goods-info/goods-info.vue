@@ -3,7 +3,13 @@
 		<view class="section">
 		  <view class="title"><text>基本属性</text></view>
       <view class="content base">
-        <view class="image">
+        <local-popup
+          :show="showPopup"
+          @close="showPopup = false"
+          @tap-item="handlePopupTapItem"
+        ></local-popup>
+        
+        <view class="image" @tap="handleOpenPopup">
           <image v-if="hasImage" :src="goodsInfo.base.image"></image>
           <text v-else class="iconfont icon-add-select"></text>
         </view>
@@ -13,7 +19,7 @@
           </view>
           <view class="divider"></view>
           <view class="sort">
-            <dy-select type="text" v-model="goodsInfo.base.sort" placeholder="分类" @select="handleSelectSort" />
+            <dy-select type="text" v-model="goodsInfo.base.sorts" placeholder="分类" @select="handleSelectSort" />
           </view>
         </view>
       </view>
@@ -27,34 +33,105 @@
         </view>
       </view>
     </view>
+    
+    <view class="footer">
+      <tui-button 
+        class="btn"
+        v-bind="initStyle"
+        :disabled="btnDisabled"
+        :type="btnDisabled ? 'gray' : 'green'"
+        :plain="btnDisabled ? false : true"
+      >完成</tui-button>
+      <tui-button 
+        class="btn"
+        v-bind="initStyle"
+        :disabled="btnDisabled"
+        :type="btnDisabled ? 'gray' : 'green'"
+      >完成并标记</tui-button>
+    </view>
 	</view>
 </template>
 
 <script>
   import validate from '@/common/tui-validation.js'
+  import LocalPopup from './popup.vue'
   
 	export default {
+    components: { LocalPopup },
 		data() {
 			return {
         goodsInfo: {
           base: {
             image: '',
             name: '',
-            sort: ''
+            sorts: ''
           },
           other: {}
-        }
+        },
+        
+        // 初始化style
+        initStyle: {
+          size: '',
+          width: '',
+          height: '',
+        },
+        
+        // 显示弹框
+        showPopup: true
 			}
 		},
     computed: {
+      // 是否录入了图片
       hasImage() {
         return !!this.goodsInfo.base.image
+      },
+      
+      // 按钮是否禁用
+      btnDisabled() {
+        return false
       }
     },
 		methods: {
 			// 选择分类
       handleSelectSort() {
         console.log(999999)
+      },
+      
+      // 打开弹框
+      handleOpenPopup() {
+        this.showPopup = true
+      },
+      
+      // 气泡弹出框点击
+      handlePopupTapItem(key) {
+        // #ifdef APP-PLUS
+        
+        if(key === 'close') {
+          // 清除图片
+          
+        } else if(key === 'photo') {
+          // 拍摄
+          
+        } else if(key === 'ablum') {
+          // 相册
+          uni.chooseImage({
+            count: 1,
+            sizeType: ['original', 'compressed'],
+            sourceType: ['album'],
+            success: (res) => {
+              console.log(res)
+              this.goodsInfo.base.image = res.tempFilePaths[0]
+              console.log(this.goodsInfo.base.image)
+              this.showPopup = false
+            }
+          })
+          
+        } else if(key === 'scan') {
+          // 扫描
+          
+        }
+        
+        // #endif
       }
 		},
     onLoad(params) {
@@ -112,6 +189,7 @@
         }
         
         &.base {
+          position: relative;
           display: flex;
           flex-direction: row;
           padding: 20rpx 0 20rpx 20rpx;
@@ -161,6 +239,24 @@
       
       &:not(:last-of-type) {
         margin-bottom: 40rpx;
+      }
+    }
+    
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      margin-top: 40rpx;
+      
+      .btn {
+        width: 45%;
+        height: 72rpx;
+        border-radius: 36rpx;
+        font-size: $uni-font-size-base;
+        
+        &.unactive {
+          color: $uni-text-color-inverse;
+        }
       }
     }
   }

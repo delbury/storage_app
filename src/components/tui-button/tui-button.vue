@@ -5,7 +5,7 @@
 			getShapeClass(shape, plain),
 			getShadowClass(type, shadow, plain)
 		]"
-	 :hover-class="getHoverClass(disabled, type, plain)" :style="{ width: width, height: height, lineHeight: height, fontSize: size + 'rpx',margin:margin }"
+	 :hover-class="getHoverClass(disabled, type, plain)" :style="{ width: width, height: height, lineHeight: height, fontSize: size, margin:margin }"
 	 :loading="loading" :open-type="openType" @getuserinfo="bindgetuserinfo" :disabled="disabled" @tap="handleClick">
 		<slot></slot>
 	</button>
@@ -37,8 +37,8 @@
 			},
 			//字体大小 rpx
 			size: {
-				type: Number,
-				default: 32
+				type: String,
+				default: '32rpx'
 			},
 			margin: {
 				type: String,
@@ -122,7 +122,7 @@
 	};
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	.tui-btn-primary {
 		background: #5677fc !important;
 		color: #fff;
@@ -142,8 +142,8 @@
 	}
 
 	.tui-btn-warning {
-		background: #fc872d !important;
-		color: #fff;
+		background: $uni-color-warning !important;
+		color: $uni-text-color-inverse;
 	}
 
 	.tui-shadow-warning {
@@ -151,8 +151,8 @@
 	}
 
 	.tui-btn-green {
-		background: #35b06a !important;
-		color: #fff;
+		background: $uni-color-success !important;
+		color: $uni-text-color-inverse;
 	}
 
 	.tui-shadow-green {
@@ -188,7 +188,7 @@
 	}
 
 	.tui-hover-gray {
-		background: #f7f7f9 !important;
+		opacity: 0.8;
 	}
 
 	.tui-black-hover {
@@ -201,7 +201,6 @@
 	.tui-btn {
 		width: 100%;
 		position: relative;
-		border: 0 !important;
 		border-radius: 6rpx;
 		padding-left: 0;
 		padding-right: 0;
@@ -241,8 +240,8 @@
 	}
 
 	.tui-gray-disabled {
-		background: #f3f3f3 !important;
-		color: #919191 !important;
+		background: $uni-bg-color-info-disable !important;
+		color: $uni-text-color-inverse !important;
 		box-shadow: none;
 	}
 
@@ -279,8 +278,7 @@
 	}
 
 	.tui-warning-hover {
-		background: #d67326 !important;
-		color: #e5e5e5 !important;
+		opacity: 0.8;
 	}
 
 	.tui-warning-outline {
@@ -293,22 +291,22 @@
 	}
 
 	.tui-green-hover {
-		background: #2d965a !important;
-		color: #e5e5e5 !important;
+		opacity: 0.8;
 	}
 
 	.tui-green-outline {
-		color: #35b06a !important;
-		background: transparent;
+    box-sizing: border-box;
+		color: $uni-color-success !important;
+		background: $uni-text-color-inverse;
+    border: 1px solid $uni-color-success;
 	}
 
-	.tui-green-outline::after {
-		border: 1rpx solid #35b06a !important;
-	}
+	// .tui-green-outline::after {
+	// 	border: 1rpx solid #35b06a !important;
+	// }
 
 	.tui-blue-hover {
-		background: #0062CC !important;
-		color: #e5e5e5 !important;
+		opacity: 0.8;
 	}
 
 	.tui-blue-outline {
@@ -333,8 +331,7 @@
 	/* #endif */
 
 	.tui-gray-hover {
-		background: #a3a3a3 !important;
-		color: #898989;
+		opacity: 0.8;
 	}
 
 	/* #ifndef APP-NVUE */

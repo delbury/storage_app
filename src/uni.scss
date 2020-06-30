@@ -37,6 +37,8 @@ $uni-bg-color-grey-deep: #e8e8e8;
 $uni-bg-color-hover: #f1f1f1;//点击状态颜色
 $uni-bg-color-mask: rgba(0, 0, 0, 0.4);//遮罩颜色
 
+$uni-bg-color-info-disable: $uni-text-color-disable;
+
 /* 阴影颜色 */
 $uni-shadow-color: #8c8c8c;
 
@@ -108,3 +110,5 @@ $uni-custom-tabbar-bg-color: $uni-bg-color-grey;
   height: $size;
   border-radius: 50%;
 }
+
+@import '@/style/cover.scss';

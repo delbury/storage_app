@@ -133,18 +133,7 @@
       }
     }
     
-    .popup {
-      background-color: $uni-color-primary;
-      
-      /deep/ .tui-popup-list {
-        box-sizing: border-box;
-        border-radius: 16rpx;
-        overflow: hidden;
-        box-shadow: 3px 3px 10px $uni-shadow-color;
-        background-color: $uni-bg-color;
-      }
-    }
-    
+
     .list-item {
       height: 70rpx;
       

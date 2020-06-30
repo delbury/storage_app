@@ -19,43 +19,48 @@
     // 	}
     // }，
     {
-      "path": "pages/space/space",
+      "path": "pages/space/space-index/space-index",
       "style": {
         "navigationBarTitleText": "空间",
         "navigationStyle": "custom"
       }
     },
     {
-      "path": "pages/furniture-edit/furniture-edit",
+      "path": "pages/space/furniture-edit/furniture-edit",
       "style": {
         "navigationBarTitleText": "家具编辑"
       }
     },
     {
-      "path": "pages/view/view",
+      "path": "pages/view/view-index/view-index",
       "style": {
         "navigationBarTitleText": "查看"
       }
     },
     {
-      "path": "pages/space-edit/space-edit",
+      "path": "pages/space/space-edit/space-edit",
       "style": {
         "navigationBarTitleText": "空间编辑"
-        // "app-plus": {
-        //   "subNVues": [
-        //     {
-        //       "id": "space-edit-add",
-        //       "path": "pages/space-edit/popup-add",
-        //       "type": "popup",
-        //       "style": {
-        //         "width": "86%",
-        //         "height": "40%",
-        //         "left": "7%",
-        //         "top": "30%"
-        //       }
-        //     }
-        //   ]
-        // }
+      }
+    },
+    {
+      "path" : "pages/remind/remind-index/remind-index",
+      "style" : {
+        "navigationBarTitleText": "提醒"
+      }
+    },
+    {
+      "path" : "pages/user/user-index/user-index",
+      "style" : {
+        "navigationBarTitleText": "当前用户"
+      }
+    },
+    {
+      "path" : "pages/view/goods-info/goods-info",
+      "style" : {
+        "navigationBarTitleText": "物品",
+        "navigationBarTextStyle": "black",
+        "navigationBarBackgroundColor": "#f8f8f8"
       }
     }
   ],
@@ -69,21 +74,40 @@
     }
   },
   "tabBar": {
-    "color": "#999999",
+    "color": "#8c8c8c",
     "backgroundColor": "#f8f8f8",
     "borderStyle": "black",
     "list": [{
-        "pagePath": "pages/space/space",
+        "pagePath": "pages/space/space-index/space-index",
         "text": "空间",
         "iconPath": "/static/icons/tab-space.png",
         "selectedIconPath": "/static/icons/tab-space-select.png"
       },
       {
-        "pagePath": "pages/view/view",
+        "pagePath": "pages/view/view-index/view-index",
         "text": "查看",
         "iconPath": "/static/icons/tab-view.png",
         "selectedIconPath": "/static/icons/tab-view-select.png"
+      },
+      {
+        "pagePath": "pages/remind/remind-index/remind-index",
+        "text": "提醒",
+        "iconPath": "/static/icons/tab-remind.png",
+        "selectedIconPath": "/static/icons/tab-remind-select.png"
+      },
+      {
+        "pagePath": "pages/user/user-index/user-index",
+        "text": "我的",
+        "iconPath": "/static/icons/tab-user.png",
+        "selectedIconPath": "/static/icons/tab-user-select.png"
       }
-    ]
+    ],
+    "midButton": {
+      "iconPath": "/static/icons/tab-middle.png",
+      "text": "",
+      "height":"45px",
+      // "width": "60px",
+      "iconWidth": "40px"
+    }
   }
 }

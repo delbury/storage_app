@@ -8,7 +8,7 @@
     color=""
   >
     <template v-slot:left>
-      <view class="left-btn" @tap="togglePopup">
+      <view class="left-btn" @tap="openPopup">
         <text class="iconfont icon-home-fill"></text>
         <text class="left-btn-text">{{ btnText }}</text>
         
@@ -18,10 +18,11 @@
           :show="showPopup"
           :mask="true"
           v-bind="styleInit"
+          @close="handlePopupClose"
         >
           <view v-for="item in homeList" :key="item.id">
-            <tui-list-cell class="list-item" @tap="handleListItemTap(item.id)">
-              <view class="list-item-container">
+            <tui-list-cell class="list-item">
+              <view class="list-item-container" @tap.stop="handleListItemTap($event, item.id)">
                 <text
                   class="iconfont icon-home-fill"
                   :class="{
@@ -34,8 +35,8 @@
             </tui-list-cell>
           </view>
           <view>
-            <tui-list-cell class="list-item" @tap="handleListItemTap(null)">
-              <view class="list-item-container">
+            <tui-list-cell class="list-item disabled">
+              <view class="list-item-container" @tap.stop="handleListItemTap($event, null)">
                 <text class="iconfont icon-set text-color-warning"></text>
                 <text class="text">管理</text>
               </view>
@@ -83,16 +84,22 @@
 			};
 		},
     methods: {
-      // 开关选择框
-      togglePopup() {
-        this.showPopup = !this.showPopup
+      // 打开选择框
+      openPopup() {
+        this.showPopup = true
+      },
+      
+      // 点击蒙层回调
+      handlePopupClose() {
+        this.showPopup = false
       },
       
       // 选择item
-      handleListItemTap(id) {
+      handleListItemTap(ev, id) {
         if(id) {
           // 切换空间
           console.log(id)
+          this.showPopup = false
           
         } else {
           // 管理页面
@@ -134,6 +141,7 @@
         border-radius: 16rpx;
         overflow: hidden;
         box-shadow: 3px 3px 10px $uni-shadow-color;
+        background-color: $uni-bg-color;
       }
     }
     

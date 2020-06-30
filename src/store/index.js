@@ -6,12 +6,10 @@ import actions from './actions.js'
 
 Vue.use(Vuex)
 
-const randomId = () => {
-  return [Date.now(), Math.floor(Math.random() * 100000)].join('')
-}
 
 const store = new Vuex.Store({
   state: {
+    // 当前的home
     currentHome: { label: '豪宅', id: '1' },
     
     // 全部home
@@ -72,7 +70,27 @@ const store = new Vuex.Store({
       },
       { label: '厨房', id: '2', items: [] },
       { label: '卧室', id: '3', items: [] },
-    ]
+    ],
+    
+    // 自定义的分类
+    customSortsList: [
+      {
+        pid: null,
+        id: '1',
+        label: '电子产品',
+        children: [
+          {
+            pid: '1',
+            id: '11',
+            label: '笔记本',
+            tags: ['电脑', '笔记本', 'PC', '计算机']
+          }
+        ]
+      }
+    ],
+    
+    // 默认的分类
+    // defaultSortsList: []
   },
   mutations,
   actions,

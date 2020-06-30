@@ -1,3 +1,7 @@
+const randomId = () => {
+  return [Date.now(), Math.floor(Math.random() * 100000)].join('')
+}
+
 export default {
   exchangeOrderMutation(state, { index1, index2, cb }) {
     ;[state.spaceList[index1], state.spaceList[index2]] = [state.spaceList[index2], state.spaceList[index1]]

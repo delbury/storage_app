@@ -45,7 +45,7 @@
       // tab more按钮
 			handleTabEdit() {
         uni.navigateTo({
-          url: '/pages/space-edit/space-edit'
+          url: '/pages/space/space-edit/space-edit'
         })
       },
       

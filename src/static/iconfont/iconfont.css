@@ -10,6 +10,62 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-arrow-right:before {
+  content: "\e743";
+}
+
+.icon-arrow-lift:before {
+  content: "\e745";
+}
+
+.icon-arrow-up:before {
+  content: "\e746";
+}
+
+.icon-arrow-down:before {
+  content: "\e7b2";
+}
+
+.icon-status-blue:before {
+  content: "\e666";
+}
+
+.icon-zaixianbianji-:before {
+  content: "\e602";
+}
+
+.icon-saoyisao:before {
+  content: "\e63a";
+}
+
+.icon-camera:before {
+  content: "\e62a";
+}
+
+.icon-remind:before {
+  content: "\e6d8";
+}
+
+.icon-my:before {
+  content: "\e601";
+}
+
+.icon-shounaxiang:before {
+  content: "\e600";
+}
+
+.icon-kong:before {
+  content: "\e629";
+}
+
+.icon-kong1:before {
+  content: "\e841";
+}
+
+.icon-kong2:before {
+  content: "\e627";
+}
+
 .icon-set:before {
   content: "\e78e";
 }

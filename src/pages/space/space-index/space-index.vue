@@ -25,19 +25,13 @@
       // tab栏编辑按钮
 			handleTabEdit() {
         uni.navigateTo({
-          url: '/pages/furniture-edit/furniture-edit'
+          url: '/pages/space/furniture-edit/furniture-edit'
         })
       },
       
       // 设置header按钮
       setHeaderButton() {}
-		},
-
-    // created() {
-    //   uni.navigateTo({
-    //     url: '/pages/space-edit/space-edit'
-    //   })
-    // }
+		}
 	}
 </script>
 

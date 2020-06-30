@@ -26,9 +26,15 @@
                class="btn-select iconfont"
                :class="{'icon-seleted selected': selectedStatusList[ind]}"
              ></text>
+             <text v-else-if="!it.quantity" class="iconfont icon-kong empty"></text>
              <image :src="it.img" mode="aspectFit" style="max-width: 100%; max-height: 50%;"></image>
-             <view class="main">{{it.title}}</view>
-             <view class="sub">{{it.quantity}}个物品</view>
+             <text class="main">{{it.title}}</text>
+             <view class="text-color-info">
+               <text :class="{
+                 'text-color-primary': !!it.quantity,
+               }">{{it.quantity}}</text>
+               <text>个物品</text>
+             </view>
             </view>
           </block>
         </view>
@@ -151,6 +157,31 @@
           color: $uni-text-color-inverse;
           box-shadow: $uni-box-shadow;
           border: none;
+        }
+      }
+      
+      .empty {
+        position: absolute;
+        right: 0.25rem;
+        top: 0.25rem;
+        z-index: 1;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 40rpx;
+        height: 40rpx;
+        font-size: 30rpx;
+        font-weight: bold;
+        color: $uni-text-color-inverse;
+        background-color: $uni-color-warning;
+        border-radius: 50%;
+        
+        padding: 2px;
+        border: 1px dashed $uni-color-warning;
+        background-clip: content-box;
+        
+        &::before {
+          margin-left: -4rpx;
         }
       }
     }

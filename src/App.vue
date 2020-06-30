@@ -2,6 +2,15 @@
 	export default {
 		onLaunch: function() {
 			// console.log('App Launch')
+      uni.onTabBarMidButtonTap(() => {
+        uni.navigateTo({
+          url: '/pages/view/goods-info/goods-info?mode=add'
+        })
+      })
+      
+      uni.navigateTo({
+        url: '/pages/view/goods-info/goods-info?mode=add'
+      })
 		},
 		onShow: function() {
 			// console.log('App Show')
@@ -21,6 +30,7 @@
     color: $uni-text-color;
     font-size: $uni-font-size-base;
   }
+  // 页面的样式
   .page {
     display: flex;
     flex-direction: column;
@@ -49,8 +59,28 @@
   .text-color-success {
     color: $uni-color-success;
   }
+  
   .full-h {
     height: 100%;
+  }
+  
+  // 禁用样式
+  .disabled,
+  .disabled * {
+    color: $uni-text-color-disable !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+  }
+  
+  // input placeholder
+  .ph {
+    color: $uni-text-color-placeholder;
+    font-size: $uni-font-size-base;
+  }
+  
+  // 分割线
+  .divider {
+    border-bottom: $uni-border-base;
   }
   /* #endif */
 </style>

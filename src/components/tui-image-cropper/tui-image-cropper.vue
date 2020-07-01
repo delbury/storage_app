@@ -257,27 +257,30 @@ export default {
 		}
 	},
 	watch: {
-		imageUrl(val, oldVal) {
-			this.imageReset();
-			this.showLoading();
-			uni.getImageInfo({
-				src: val,
-				success: res => {
-					//计算图片尺寸
-					this.imgComputeSize(res.width, res.height);
-					if (this.limitMove) {
-						//限制移动，不留空白处理
-						this.imgMarginDetectionScale();
-					}
-				},
-				fail: err => {
-					this.imgComputeSize();
-					if (this.limitMove) {
-						this.imgMarginDetectionScale();
-					}
-				}
-			});
-		},
+		imageUrl: {
+      immediate: true,
+      handler(val, oldVal) {
+        this.imageReset();
+        this.showLoading();
+        uni.getImageInfo({
+          src: val,
+          success: res => {
+            //计算图片尺寸
+            this.imgComputeSize(res.width, res.height);
+            if (this.limitMove) {
+              //限制移动，不留空白处理
+              this.imgMarginDetectionScale();
+            }
+          },
+          fail: err => {
+            this.imgComputeSize();
+            if (this.limitMove) {
+              this.imgMarginDetectionScale();
+            }
+          }
+        });
+      }
+    },
 		//监听截取框宽高变化
 		canvasWidth(val) {
 			if (val < this.minWidth) {

@@ -74,7 +74,7 @@
   .dy-tab {
     display: flex;
     justify-content: space-between;
-    // height: 72rpx;
+    height: 72rpx;
     box-sizing: border-box;
     padding: 0.25rem 1rem;
     font-size: $uni-font-size-sm;

@@ -158,10 +158,11 @@
 	};
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  $duration: 100ms;
 	.tui-popup-list {
 		z-index: 1;
-		transition: all 0.2s ease-in-out;
+		transition: all $duration ease-in-out;
 		opacity: 0;
 		visibility: hidden;
 	}
@@ -187,7 +188,7 @@
 		right: 0;
 		bottom: 0;
 		z-index: 995;
-		transition: all 0.2s ease-in-out;
+		transition: all $duration ease-in-out;
 		opacity: 0;
 		visibility: hidden;
 	}

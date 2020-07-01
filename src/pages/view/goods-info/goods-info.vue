@@ -24,6 +24,52 @@
         </view>
       </view>
 		</view>
+    
+    <view class="section">
+      <view class="title"><text>物品属性</text></view>
+      <view class="content self">
+        <!-- 条码 -->
+        <tui-swipe-action :operateWidth="60">
+          <template #content>
+            <view class="row">
+              <view class="info">
+                <text>条码： </text>
+                <text>{{ goodsInfo.self.barCode }}</text>
+              </view>
+              <text class="iconfont icon-scanning bigger-tap-area" @tap="handleTapScanBarCode"></text>
+            </view>
+          </template>
+          
+          <template #button>
+            <view class="delete">
+              <text class="text" @tap="clearSelfParam('barCode', '')">删除</text>
+            </view>
+          </template>
+        </tui-swipe-action>
+      </view>
+      
+      <view class="content self">
+        <!-- 子分类 -->
+        <tui-swipe-action :operateWidth="60">
+          <template #content>
+            <view class="row">
+              <view class="info">
+                <text>分类子标签： </text>
+                <text>{{ goodsInfo.self.subSorts.length }}</text>
+              </view>
+              <text class="iconfont icon-arrow-right bigger-tap-area" @tap="() => {}"></text>
+            </view>
+          </template>
+          
+          <template #button>
+            <view class="delete">
+              <text class="text" @tap="clearSelfParam('subSorts', [])">删除</text>
+            </view>
+          </template>
+        </tui-swipe-action>
+      </view>
+    </view>
+    
     <view class="section">
       <view class="title"><text>其他属性</text></view>
       <view class="content other">
@@ -66,6 +112,10 @@
             name: '',
             sorts: ''
           },
+          self: {
+            barCode: '',
+            subSorts: []
+          },
           other: {}
         },
         
@@ -77,7 +127,7 @@
         },
         
         // 显示弹框
-        showPopup: true
+        showPopup: false
 			}
 		},
     computed: {
@@ -88,7 +138,7 @@
       
       // 按钮是否禁用
       btnDisabled() {
-        return false
+        return !!this.goodsInfo.base.name
       }
     },
 		methods: {
@@ -102,36 +152,86 @@
         this.showPopup = true
       },
       
+      // 清除图片
+      clearImage() {
+        this.goodsInfo.base.image = ''
+        this.showPopup = false
+      },
+      
+      // 选取图片
+      chooseImage(sourceType) {
+        uni.chooseImage({
+          count: 1,
+          sizeType: ['original'],
+          sourceType: [sourceType], // album, camera
+          success: (res) => {
+            this.showPopup = false
+            
+            const filePath = encodeURIComponent(res.tempFilePaths[0])
+            uni.navigateTo({
+              url: `/pages/view/image-cropper/image-cropper?path=${filePath}`
+            })
+          }
+        })
+      },
+      
+      // 扫码导入
+      importByScan() {
+        // #ifdef APP-PLUS
+        uni.scanCode({
+          scanType: ['qrCode', 'barCode', 'datamatrix', 'pdf417'],
+          onlyFromCamera: false,
+          success: res => {
+            const info = res.result
+            const type = res.scanType
+          }
+        })
+        // #endif
+      },
+      
+      // 扫入条码
+      handleTapScanBarCode() {
+        // #ifdef APP-PLUS
+        uni.scanCode({
+          scanType: ['barCode'],
+          onlyFromCamera: false,
+          success: res => {
+            const info = res.result
+            this.goodsInfo.self.barCode = info
+          }
+        })
+        // #endif
+      },
+      
+      // 清除输入
+      clearSelfParam(key, init) {
+        this.goodsInfo.self[key] = init
+      },
+      
       // 气泡弹出框点击
       handlePopupTapItem(key) {
-        // #ifdef APP-PLUS
-        
         if(key === 'close') {
           // 清除图片
+          this.clearImage()
           
-        } else if(key === 'photo') {
+        } else if(key === 'camera') {
           // 拍摄
+          this.chooseImage('camera')
           
         } else if(key === 'ablum') {
           // 相册
-          uni.chooseImage({
-            count: 1,
-            sizeType: ['original', 'compressed'],
-            sourceType: ['album'],
-            success: (res) => {
-              console.log(res)
-              this.goodsInfo.base.image = res.tempFilePaths[0]
-              console.log(this.goodsInfo.base.image)
-              this.showPopup = false
-            }
-          })
+          this.chooseImage('ablum')
           
         } else if(key === 'scan') {
-          // 扫描
+          // 扫码
+          this.importByScan()
           
         }
-        
-        // #endif
+      },
+      
+      // 设置图片
+      setImage(path) {
+        this.goodsInfo.base.image = path
       }
 		},
     onLoad(params) {
@@ -167,7 +267,54 @@
       
       .content {
         background-color: $uni-bg-color;
-        border-radius: $uni-border-radius-lg;
+        
+        .row {
+          display: flex;
+          align-items: center;
+          height: 48rpx;
+        }
+        
+        &:last-of-type {
+          border-bottom-left-radius: $uni-border-radius-lg;
+          border-bottom-right-radius: $uni-border-radius-lg;
+        }
+        &:nth-of-type(2) {
+          border-top-left-radius: $uni-border-radius-lg;
+          border-top-right-radius: $uni-border-radius-lg;
+        }
+        &:not(:last-of-type) {
+          border-bottom: $uni-border-base;
+        }
+        
+        &.self {
+          padding: 20rpx;
+          font-size: $uni-font-size-base;
+          
+          .row {
+            
+            .info {
+              margin-right: 2em;
+              flex: 1;
+              display: flex;
+              color: $uni-text-color;
+            }
+            .iconfont {
+              color: $uni-text-color-grey;
+              font-size: $uni-font-size-icon;
+            }
+          }
+          
+          .delete {
+            @include flex-center();
+            width: 100%;
+            height: 100%;
+            
+            .text {
+              color: $uni-color-error;
+              font-size: $uni-font-size-base;
+            }
+          }
+        }
         
         &.other {
           padding: 20rpx;

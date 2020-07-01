@@ -3,12 +3,14 @@
     class="dy-navbar"
     :title="title"
     :fixed="true"
-    backgroundColor=""
+    :backgroundColor="backgroundColor"
     :border="false"
     color=""
+    :left-icon="backIcon"
+    @clickLeft="handleClickLeft"
   >
     <template v-slot:left>
-      <view class="left-btn" @tap="openPopup">
+      <view class="left-btn" @tap="openPopup" v-if="hasSpaceBtn">
         <text class="iconfont icon-home-fill"></text>
         <text class="left-btn-text">{{ btnText }}</text>
         
@@ -57,12 +59,29 @@
         type: String,
         default: ''
       },
+      
+      // 是否有左上角自定义按钮
+      hasSpaceBtn: {
+        type: Boolean,
+        default: true,
+      },
+      
+      // 背景颜色
+      backgroundColor: {
+        type: String,
+        default: ''
+      }
     },
     computed: {
       ...mapGetters({
         homeList: 'homeList',
         currentHome: 'currentHome',
-      })
+      }),
+      
+      // 是否有返回按钮
+      backIcon() {
+        return !this.hasSpaceBtn ? 'back' : ''
+      }
     },
 		data() {
 			return {
@@ -103,6 +122,13 @@
           
         } else {
           // 管理页面
+        }
+      },
+      
+      // 返回
+      handleClickLeft() {
+        if(!!this.backIcon) {
+          uni.navigateBack()
         }
       }
     }

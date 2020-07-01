@@ -10,6 +10,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-scanning:before {
+  content: "\e762";
+}
+
+.icon-empty:before {
+  content: "\e603";
+}
+
 .icon-arrow-right:before {
   content: "\e743";
 }
@@ -32,10 +40,6 @@
 
 .icon-zaixianbianji-:before {
   content: "\e602";
-}
-
-.icon-saoyisao:before {
-  content: "\e63a";
 }
 
 .icon-camera:before {

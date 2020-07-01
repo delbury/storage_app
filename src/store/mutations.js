@@ -11,7 +11,7 @@ export default {
   },
   
   // 重新排序
-  reOrderMutation(state, { orders, cb }) {
+  reorderMutation(state, { orders, cb }) {
     state.spaceList = orders.map(order => state.spaceList[order])
     
     cb && cb()

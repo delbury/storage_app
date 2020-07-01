@@ -14,7 +14,7 @@
       </view>
     </tui-list-cell>
     <tui-list-cell class="list-item" :lineLeft="false" :lineRight="false">
-      <view class="list-item-container" @tap.stop="handleListItemTap($event, 'photo')">
+      <view class="list-item-container" @tap.stop="handleListItemTap($event, 'camera')">
         <text class="text">拍照</text>
       </view>
     </tui-list-cell>
@@ -25,7 +25,7 @@
     </tui-list-cell>
     <tui-list-cell class="list-item" :lineLeft="false" :lineRight="false">
       <view class="list-item-container" @tap.stop="handleListItemTap($event, 'scan')">
-        <text class="text">扫码</text>
+        <text class="text">扫码导入</text>
       </view>
     </tui-list-cell>
   </view>

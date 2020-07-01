@@ -7,7 +7,7 @@
           url: '/pages/view/goods-info/goods-info?mode=add'
         })
       })
-      
+
       uni.navigateTo({
         url: '/pages/view/goods-info/goods-info?mode=add'
       })
@@ -83,5 +83,20 @@
     border-bottom: $uni-border-base;
   }
   
+  // 增加可点击范围
+  .bigger-tap-area {
+    position: relative;
+    
+    &::after {
+      position: absolute;
+      left: -25%;
+      top: -25%;
+      content: "";
+      display: block;
+      width: 150%;
+      height: 150%;
+      background-color: transparent;
+    }
+  }
   /* #endif */
 </style>

@@ -26,7 +26,7 @@
 
 <script>
   import DyDialogMixin from '@/components/dy-dialog/dy-dialog-mixin.js'
-  import { mapMutations } from 'vuex'
+  import { mapActions } from 'vuex'
   import validateRules from '@/common/validate-rules.js'
   const validate = require('@/common/tui-validation.js').validation
   
@@ -52,9 +52,9 @@
       }
     },
     methods: {
-      ...mapMutations({
-        addNewTab: 'addNewTabMutation',
-        editTab: 'editTabMutation'
+      ...mapActions({
+        addNewTab: 'addNewTabAction',
+        editTab: 'editTabAction'
       }),
       handleKeyboardConfirm() {
         uni.hideKeyboard()

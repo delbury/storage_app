@@ -7,31 +7,34 @@
       :scroll-top="scrollTop"
       @scroll="drag.scroll"
     >
-      <block
-        v-for="(item, index) in list"
-        :key="index"
-      >
-        <view
-          class="edit-list-item"
-          :class="{ ['item-id-' + item.id]: true }"
-          :data-id="item.id"
-          :data-index="index"
-          @transitionend="drag.handleTransitionend"
-         >
-          <view class="label">{{ item.label }}</view>
-          
-          <slot class="icons" v-if="showSlot" :item="item"></slot>
-          <view v-else class="icons">
-            <text
-              class="bigger-area iconfont icon-category"
-              @touchstart.stop.prevent="drag.dragTouchstart"
-              @touchmove.stop.prevent="drag.dragTouchmove"
-              @touchend.stop.prevent="drag.dragTouchend"
-              :data-id="item.id"
-            ></text>
+      <view v-if="!!list.length">
+        <block
+          v-for="(item, index) in list"
+          :key="index"
+        >
+          <view
+            class="edit-list-item"
+            :class="{ ['item-id-' + item.id]: true }"
+            :data-id="item.id"
+            :data-index="index"
+            @transitionend="drag.handleTransitionend"
+           >
+            <view class="label">{{ item.label }}</view>
+            
+            <slot class="icons" v-if="showSlot" :item="item"></slot>
+            <view v-else class="icons">
+              <text
+                class="bigger-area iconfont icon-category"
+                @touchstart.stop.prevent="drag.dragTouchstart"
+                @touchmove.stop.prevent="drag.dragTouchmove"
+                @touchend.stop.prevent="drag.dragTouchend"
+                :data-id="item.id"
+              ></text>
+            </view>
           </view>
-        </view>
-      </block>
+        </block>
+      </view>
+      <dy-no-data v-else></dy-no-data>
     </scroll-view>
   </view>
   <view v-else class="edit-list">
@@ -55,8 +58,10 @@
 <script module="drag" lang="renderjs">
   // import store from '@/store/index.js'
   import { constCustomTabbarHeigth as tbh } from '@/common/const.js'
+  import DyNoData from '../dy-no-data/dy-no-data.vue'
   
   export default {
+    components: { DyNoData },
     data() {
       return {
         currentElement: null,

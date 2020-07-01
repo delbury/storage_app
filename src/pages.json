@@ -62,6 +62,13 @@
         "navigationBarTextStyle": "black",
         "navigationBarBackgroundColor": "#f8f8f8"
       }
+    },
+    {
+      "path" : "pages/view/image-cropper/image-cropper",
+      "style" : {
+        "navigationBarTitleText": "图片裁剪",
+        "navigationStyle": "custom"
+      }
     }
   ],
   "globalStyle": {

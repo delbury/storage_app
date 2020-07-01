@@ -28,7 +28,7 @@
 
 <script>
   import { spaceEditButtons as editButtons } from '@/common/custom-tabbar-buttons.js'
-  import { mapMutations } from 'vuex'
+  import { mapActions } from 'vuex'
   import PopupAdd from './popup-add.vue'
   
 	export default {
@@ -50,9 +50,9 @@
 			}
 		},
 		methods: {
-      ...mapMutations({
-        reOrder: 'reOrderMutation',
-        deleteTab: 'deleteTabMutation'
+      ...mapActions({
+        reorder: 'reorderAction',
+        deleteTab: 'deleteTabAction'
       }),
       
 			handleTapButton(key) {
@@ -127,7 +127,7 @@
       
       // 排序改变
       handleOrderChange(orders) {
-        this.reOrder({ orders })
+        this.reorder({ orders })
       }
 		}
 	}

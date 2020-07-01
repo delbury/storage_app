@@ -160,6 +160,7 @@
       
       // 选取图片
       chooseImage(sourceType) {
+        console.log(sourceType)
         uni.chooseImage({
           count: 1,
           sizeType: ['original'],
@@ -218,9 +219,9 @@
           // 拍摄
           this.chooseImage('camera')
           
-        } else if(key === 'ablum') {
+        } else if(key === 'album') {
           // 相册
-          this.chooseImage('ablum')
+          this.chooseImage('album')
           
         } else if(key === 'scan') {
           // 扫码

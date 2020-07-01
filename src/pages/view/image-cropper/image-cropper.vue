@@ -1,6 +1,6 @@
 <template>
   <view class="page page-custom-tabbar">
-    <dy-navbar title="图片裁剪" :hasSpaceBtn="false" backgroundColor="rgba(0, 0, 0, 0.6)"></dy-navbar>
+    <!-- <dy-navbar title="图片裁剪" :hasSpaceBtn="false" backgroundColor="rgba(0, 0, 0, 0.6)"></dy-navbar> -->
     <tui-image-cropper
       :imageUrl="path"
       :quality="0.9"

@@ -67,7 +67,10 @@
       "path" : "pages/view/image-cropper/image-cropper",
       "style" : {
         "navigationBarTitleText": "图片裁剪",
-        "navigationStyle": "custom"
+        // "navigationStyle": "custom"
+        "titleNView": {
+          "backgroundColor": "rgba(0, 0, 0, 0.6)"
+        }
       }
     }
   ],

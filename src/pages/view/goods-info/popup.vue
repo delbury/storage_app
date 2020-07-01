@@ -19,7 +19,7 @@
       </view>
     </tui-list-cell>
     <tui-list-cell class="list-item" :lineLeft="false" :lineRight="false">
-      <view class="list-item-container" @tap.stop="handleListItemTap($event, 'ablum')">
+      <view class="list-item-container" @tap.stop="handleListItemTap($event, 'album')">
         <text class="text">相册</text>
       </view>
     </tui-list-cell>

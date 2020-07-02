@@ -27,58 +27,45 @@
     
     <view class="section">
       <view class="title"><text>物品属性</text></view>
-      <view class="content self">
-        <!-- 条码 -->
-        <tui-swipe-action :operateWidth="60">
-          <template #content>
-            <view class="row">
-              <view class="info">
-                <text>条码： </text>
-                <text>{{ goodsInfo.self.barCode }}</text>
-              </view>
-              <text class="iconfont icon-scanning bigger-tap-area" @tap="handleTapScanBarCode"></text>
-            </view>
-          </template>
-          
-          <template #button>
-            <view class="delete">
-              <text class="text" @tap="clearSelfParam('barCode', '')">删除</text>
-            </view>
-          </template>
-        </tui-swipe-action>
-      </view>
       
-      <view class="content self">
-        <!-- 子分类 -->
-        <tui-swipe-action :operateWidth="60">
-          <template #content>
-            <view class="row">
-              <view class="info">
-                <text>分类子标签： </text>
-                <text>{{ goodsInfo.self.subSorts.length }}</text>
+      <block v-for="item in goodsInfoSelfItems" :key="item.key">
+        <view class="content self">
+          <tui-swipe-action :operateWidth="60">
+            <template #content>
+              <view class="row">
+                <view class="info">
+                  <text>{{ item.label }}： </text>
+                  
+                  <view style="flex: 1; overflow: hidden;">
+                    <text
+                      v-if="item.type === 'select'"
+                    >{{ goodsInfo.self[item.key] }}</text>
+                    <dy-select-tags
+                      v-else-if="item.type === 'tags'"
+                      v-model="goodsInfo.self[item.key]"
+                    ></dy-select-tags>
+                  </view>
+                </view>
+                
+                <text 
+                  v-if="item.icon"
+                  class="iconfont bigger-tap-area" 
+                  :class="[item.icon || '']"
+                  @tap="handleTapItem(item.key)"
+                ></text>
               </view>
-              <text class="iconfont icon-arrow-right bigger-tap-area" @tap="() => {}"></text>
-            </view>
-          </template>
-          
-          <template #button>
-            <view class="delete">
-              <text class="text" @tap="clearSelfParam('subSorts', [])">删除</text>
-            </view>
-          </template>
-        </tui-swipe-action>
-      </view>
+            </template>
+            
+            <template #button>
+              <view class="delete">
+                <text class="text" @tap="clearSelfParam(item.key, '')">清除</text>
+              </view>
+            </template>
+          </tui-swipe-action>
+        </view>
+      </block>
     </view>
     
-    <view class="section">
-      <view class="title"><text>其他属性</text></view>
-      <view class="content other">
-        <view class="row header">
-          <text>其他属性</text>
-          <text class="iconfont icon-editor"></text>
-        </view>
-      </view>
-    </view>
     
     <view class="footer">
       <tui-button 
@@ -114,9 +101,12 @@
           },
           self: {
             barCode: '',
-            subSorts: []
+            subSorts: [
+              { label: '服装', id: '1' },
+              { label: '衣服', id: '2' },
+              { label: '裤子', id: '3' },
+            ]
           },
-          other: {}
         },
         
         // 初始化style
@@ -127,7 +117,13 @@
         },
         
         // 显示弹框
-        showPopup: false
+        showPopup: false,
+        
+        // 物品属性条目
+        goodsInfoSelfItems: [
+          { key: 'barCode', type: 'select', icon: 'icon-scanning', label: '条码' },
+          { key: 'subSorts', type: 'tags', icon: 'icon-arrow-right', label: '分类子标签' }
+        ]
 			}
 		},
     computed: {
@@ -202,6 +198,13 @@
           }
         })
         // #endif
+      },
+      
+      // 点击物品属性图标
+      handleTapItem(key) {
+        if(key === 'barCode') {
+          this.handleTapScanBarCode()
+        }
       },
       
       // 清除输入
@@ -284,7 +287,17 @@
           border-top-right-radius: $uni-border-radius-lg;
         }
         &:not(:last-of-type) {
-          border-bottom: $uni-border-base;
+          position: relative;
+          &::after {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: block;
+            content: "";
+            border-bottom: $uni-border-base;
+            transform: scaleY(0.5);
+          }
         }
         
         &.self {
@@ -297,7 +310,9 @@
               margin-right: 2em;
               flex: 1;
               display: flex;
+              align-items: center;
               color: $uni-text-color;
+              overflow: hidden;
             }
             .iconfont {
               color: $uni-text-color-grey;
@@ -315,25 +330,6 @@
               font-size: $uni-font-size-base;
             }
           }
-        }
-        
-        &.other {
-          padding: 20rpx;
-          font-size: $uni-font-size-base;
-          
-          .row {
-            
-            &.header {
-              display: flex;
-              justify-content: space-between;
-              color: $uni-text-color-grey;
-              
-              .iconfont {
-                font-size: $uni-font-size-icon;
-              }
-            }
-          }
-          
         }
         
         &.base {

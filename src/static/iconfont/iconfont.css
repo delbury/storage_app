@@ -10,6 +10,34 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-fengefu:before {
+  content: "\e670";
+}
+
+.icon-add-fill:before {
+  content: "\e607";
+}
+
+.icon-package:before {
+  content: "\e659";
+}
+
+.icon-package1:before {
+  content: "\e605";
+}
+
+.icon-package2:before {
+  content: "\e606";
+}
+
+.icon-goods:before {
+  content: "\e61d";
+}
+
+.icon-goods1:before {
+  content: "\e604";
+}
+
 .icon-scanning:before {
   content: "\e762";
 }

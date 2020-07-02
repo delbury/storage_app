@@ -113,7 +113,7 @@
       }
     ],
     "midButton": {
-      "iconPath": "/static/icons/tab-middle.png",
+      "iconPath": "/static/icons/tab-middle-add.png",
       "text": "",
       "height":"45px",
       // "width": "60px",

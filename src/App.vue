@@ -24,6 +24,7 @@
 <style lang="scss">
 	/*每个页面公共css */
   /* #ifndef APP-NVUE */
+  @import "uview-ui/index.scss";
   @import url('@/static/iconfont/iconfont.css');
   page {
     height: 100%;
@@ -34,7 +35,7 @@
   .page {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    min-height: 100%;
     
     .btn-tab-edit {
       font-size: $uni-font-size-icon;

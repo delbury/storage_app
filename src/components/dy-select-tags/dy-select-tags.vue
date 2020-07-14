@@ -2,7 +2,6 @@
 	<scroll-view :scroll-x="true" class="dy-select-tags">
 	  <view
       class="content"
-      @touchend.stop
     >
       <view class="chip" v-for="(item, index) in value" :key="item.id">
         <tui-tag type="gray" size="" padding="" margin="">

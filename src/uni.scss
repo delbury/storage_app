@@ -13,20 +13,26 @@
  */
 
 /* 颜色变量 */
+@import './uview-ui/theme.scss';
 
 /* 行为相关颜色 */
-$uni-color-primary: #1890ff;
-$uni-color-success: #389e0d;
-$uni-color-warning: #fa8c16;
-$uni-color-error: #f5222d;
-$uni-color-info: #8c8c8c;
+// $uni-color-primary: #1890ff;
+// $uni-color-success: #389e0d;
+// $uni-color-warning: #fa8c16;
+// $uni-color-error: #f5222d;
+// $uni-color-info: #8c8c8c;
+$uni-color-primary: $u-type-primary;
+$uni-color-success: $u-type-success;
+$uni-color-warning: $u-type-warning;
+$uni-color-error: $u-type-error;
+$uni-color-info: $u-type-info;
 
 /* 文字基本颜色 */
-$uni-text-color: #1f1f1f;//基本色
+$uni-text-color: $u-main-color;//基本色
 $uni-text-color-inverse: #ffffff;//反色
-$uni-text-color-grey: #8c8c8c;//辅助灰色，如加载更多的提示信息
-$uni-text-color-placeholder: #b6b6b6;
-$uni-text-color-disable: #c0c0c0;
+$uni-text-color-grey: $u-tips-color;//辅助灰色，如加载更多的提示信息
+$uni-text-color-placeholder: $u-light-color;
+$uni-text-color-disable: $u-type-info-disabled;
 $uni-text-color-unactive: $uni-color-info; // 未激活
 
 /* 背景颜色 */

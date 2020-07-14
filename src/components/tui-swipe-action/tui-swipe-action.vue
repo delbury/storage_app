@@ -1,7 +1,13 @@
 <template>
 	<view class="tui-swipeout-wrap">
-		<view class="tui-swipeout-item" :class="[isShowBtn ? 'swipe-action-show' : '']" @touchstart="handlerTouchstart"
-		 @touchmove="handlerTouchmove" @touchend="handlerTouchend" :style="{ transform: 'translate(' + position.pageX + 'px,0)' }">
+		<view
+			class="tui-swipeout-item"
+			:class="[isShowBtn ? 'swipe-action-show' : '']"
+			@touchstart="handlerTouchstart"
+		 	@touchmove="handlerTouchmove"
+			@touchend="handlerTouchend"
+			:style="{ transform: position.pageX ? 'translate(' + position.pageX + 'px,0)' : '' }"
+		>
 			<view class="tui-swipeout-content">
 				<slot name="content"></slot>
 			</view>
@@ -50,7 +56,7 @@
 			},
 			operateWidth: {
 				type: Number,
-				default: 80
+				default: 70
 			},
 			params: {
 				type: Object,
@@ -151,6 +157,7 @@
 				}
 			},
 			handlerTouchend(event) {
+				console.log('endend')
 				if (this.forbid) return;
 				const start = this.tStart;
 				const touches = event.changedTouches ? event.changedTouches[0] : {};

@@ -1,5 +1,5 @@
 <template>
-	<view class="page page-goods-info">
+	<view class="page page-goods-info" @touchstart="handleToucestart" @touchend="handleTouceend">
 		<view class="section">
 		  <view class="title"><text>基本属性</text></view>
       <view class="content base">
@@ -28,22 +28,66 @@
     <view class="section">
       <view class="title"><text>物品属性</text></view>
       
-      <block v-for="item in goodsInfoSelfItems" :key="item.key">
+      <block v-for="(item, index) in goodsInfoSelfItems" :key="index">
         <view class="content self">
-          <tui-swipe-action :operateWidth="60">
-            <template #content>
+          <tui-swipe-action :operateWidth="60" :forbid="forbidSwipeAction">
+            <view slot="content">
               <view class="row">
                 <view class="info">
                   <text>{{ item.label }}： </text>
                   
                   <view style="flex: 1; overflow: hidden;">
+                    <!-- 选择类型 -->
                     <text
                       v-if="item.type === 'select'"
                     >{{ goodsInfo.self[item.key] }}</text>
+
+                    <!-- 多选标签 -->
                     <dy-select-tags
                       v-else-if="item.type === 'tags'"
                       v-model="goodsInfo.self[item.key]"
                     ></dy-select-tags>
+
+                    <!-- 评分 -->
+                    <u-rate
+                      v-else-if="item.type === 'rate'"
+                      :count="5"
+                      v-model="goodsInfo.self[item.key]"
+                      active-color=""
+                    ></u-rate>
+
+                    <!-- 数量 -->
+                    <u-number-box
+                      v-else-if="item.type === 'number'"
+                      v-model="goodsInfo.self[item.key]"
+                      :min="1"
+                      :max="999"
+                    ></u-number-box>
+
+                    <!-- 购买时间、过期时间 -->
+                    <dy-calendar
+                      :ref="item.key"
+                      v-else-if="item.type === 'date'"
+                      v-model="goodsInfo.self[item.key]"
+                    ></dy-calendar>
+
+                    <!-- 价格 -->
+                    <u-input
+                      v-else-if="item.type === 'money'"
+                      v-model="goodsInfo.self[item.key]"
+                      type="number"
+                      placeholder="请输入价格"
+                      height="44rpx"
+                    ></u-input>
+
+                    <!-- 文本段 -->
+                    <u-input
+                      v-else-if="item.type === 'textarea'"
+                      v-model="goodsInfo.self[item.key]"
+                      type="textarea"
+                      placeholder="请输入信息"
+                      height="44rpx"
+                    ></u-input>
                   </view>
                 </view>
                 
@@ -51,16 +95,14 @@
                   v-if="item.icon"
                   class="iconfont bigger-tap-area" 
                   :class="[item.icon || '']"
-                  @tap="handleTapItem(item.key)"
+                  @tap="handleTapItem(item.key, item)"
                 ></text>
               </view>
-            </template>
+            </view>
             
-            <template #button>
-              <view class="delete">
-                <text class="text" @tap="clearSelfParam(item.key, '')">清除</text>
-              </view>
-            </template>
+            <view slot="button" class="delete">
+              <text class="text" @tap="clearSelfParam(item.key, item.initValue)">清除</text>
+            </view>
           </tui-swipe-action>
         </view>
       </block>
@@ -100,12 +142,32 @@
             sorts: ''
           },
           self: {
-            barCode: '',
+            barCode: '2339233',
             subSorts: [
               { label: '服装', id: '1' },
               { label: '衣服', id: '2' },
               { label: '裤子', id: '3' },
-            ]
+            ],
+            rate: 3,
+            quantity: 1,
+            unitPrice: '',
+            purchaseDate: '',
+            expirationDate: '',
+            colors: [
+              { label: '深海色', id: '1' },
+              { label: '墨绿色', id: '2' },
+            ],
+            seasons: [
+              { label: '春季', id: '1' },
+              { label: '夏季', id: '2' },
+              { label: '秋季', id: '3' },
+              { label: '冬季', id: '4' },
+            ],
+            channels: [
+              { label: '淘宝', id: '1' },
+              { label: '网购', id: '2' },
+            ],
+            remark: ''
           },
         },
         
@@ -118,11 +180,23 @@
         
         // 显示弹框
         showPopup: false,
+
+        // 禁止滑动
+        forbidSwipeAction: false,
         
         // 物品属性条目
         goodsInfoSelfItems: [
           { key: 'barCode', type: 'select', icon: 'icon-scanning', label: '条码' },
-          { key: 'subSorts', type: 'tags', icon: 'icon-arrow-right', label: '分类子标签' }
+          { key: 'subSorts', type: 'tags', icon: 'icon-arrow-right', label: '分类子标签' },
+          { key: 'rate', type: 'rate', label: '评分' },
+          { key: 'quantity', type: 'number', label: '数量', initValue: 1 },
+          { key: 'unitPrice', type: 'money', label: '单价' },
+          { key: 'purchaseDate', type: 'date', label: '购买时间', icon: 'icon-calendar' },
+          { key: 'expirationDate', type: 'date', label: '过期时间', icon: 'icon-calendar' },
+          { key: 'colors', type: 'tags', icon: 'icon-arrow-right', label: '颜色' },
+          { key: 'seasons', type: 'tags', icon: 'icon-arrow-right', label: '季节' },
+          { key: 'channels', type: 'tags', icon: 'icon-arrow-right', label: '购货渠道' },
+          { key: 'remark', type: 'textarea', icon: '', label: '其他' },
         ]
 			}
 		},
@@ -156,7 +230,6 @@
       
       // 选取图片
       chooseImage(sourceType) {
-        console.log(sourceType)
         uni.chooseImage({
           count: 1,
           sizeType: ['original'],
@@ -201,9 +274,11 @@
       },
       
       // 点击物品属性图标
-      handleTapItem(key) {
+      handleTapItem(key, item) {
         if(key === 'barCode') {
           this.handleTapScanBarCode()
+        } else if(item.type === 'date') {
+          this.$refs[key][0].open()
         }
       },
       
@@ -236,6 +311,16 @@
       // 设置图片
       setImage(path) {
         this.goodsInfo.base.image = path
+      },
+
+      // 开始滑动
+      handleToucestart() {
+        // this.forbidSwipeAction = false
+      },
+
+      // 滑动结束
+      handleTouceend() {
+        this.forbidSwipeAction = false
       }
 		},
     onLoad(params) {
@@ -252,7 +337,12 @@
         })
         
       }
-    }
+    },
+    onPageScroll() {
+      if(!this.forbidSwipeAction) {
+        this.forbidSwipeAction = true
+      }
+		},
 	}
 </script>
 
@@ -273,9 +363,11 @@
         background-color: $uni-bg-color;
         
         .row {
+          box-sizing: content-box;
+          padding: 20rpx;
           display: flex;
           align-items: center;
-          height: 48rpx;
+          min-height: 50rpx;
         }
         
         &:last-of-type {
@@ -301,7 +393,6 @@
         }
         
         &.self {
-          padding: 20rpx;
           font-size: $uni-font-size-base;
           
           .row {
@@ -324,9 +415,10 @@
             @include flex-center();
             width: 100%;
             height: 100%;
+            background-color: $uni-color-error;
             
             .text {
-              color: $uni-color-error;
+              color: $uni-text-color-inverse;
               font-size: $uni-font-size-base;
             }
           }
@@ -390,7 +482,8 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      margin-top: 40rpx;
+      padding-top: 20rpx;
+      padding-bottom: 60rpx;
       
       .btn {
         width: 45%;
@@ -402,6 +495,10 @@
           color: $uni-text-color-inverse;
         }
       }
+    }
+
+    /deep/ .uicon-star-fill.u-iconfont {
+      color: $uni-color-warning;
     }
   }
 </style>

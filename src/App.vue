@@ -8,9 +8,9 @@
         })
       })
 
-      uni.navigateTo({
-        url: '/pages/view/goods-info/goods-info?mode=add'
-      })
+      // uni.navigateTo({
+      //   url: '/pages/view/goods-info/goods-info?mode=add'
+      // })
 		},
 		onShow: function() {
 			// console.log('App Show')

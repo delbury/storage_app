@@ -28,7 +28,7 @@
     <view class="section">
       <view class="title"><text>物品属性</text></view>
       
-      <block v-for="(item, index) in goodsInfoSelfItems" :key="index">
+      <block v-for="(item, index) in showGoodsInfoSelfItems" :key="index">
         <view class="content self">
           <tui-swipe-action :operateWidth="60" :forbid="forbidSwipeAction">
             <view slot="content">
@@ -106,6 +106,10 @@
           </tui-swipe-action>
         </view>
       </block>
+      <view class="goods-info-more" @tap="toggleShowMoreInfo">
+        <u-icon class="icon" :class="{'open': showMoreInfo}" name="arrow-left-double"></u-icon>
+        <text class="text">显示更多信息</text>
+      </view>
     </view>
     
     
@@ -197,7 +201,10 @@
           { key: 'seasons', type: 'tags', icon: 'icon-arrow-right', label: '季节' },
           { key: 'channels', type: 'tags', icon: 'icon-arrow-right', label: '购货渠道' },
           { key: 'remark', type: 'textarea', icon: '', label: '其他' },
-        ]
+        ],
+
+        // 显示更多信息字段
+        showMoreInfo: false
 			}
 		},
     computed: {
@@ -209,9 +216,22 @@
       // 按钮是否禁用
       btnDisabled() {
         return !!this.goodsInfo.base.name
+      },
+
+      // 展示的信息字段
+      showGoodsInfoSelfItems() {
+        if(this.showMoreInfo) {
+          return this.goodsInfoSelfItems
+        } else {
+          return this.goodsInfoSelfItems.filter((item, index) => index < 2)
+        }
       }
     },
 		methods: {
+      toggleShowMoreInfo() {
+        this.showMoreInfo = !this.showMoreInfo
+      },
+
 			// 选择分类
       handleSelectSort() {
         console.log(999999)
@@ -351,6 +371,28 @@
     box-sizing: border-box;
     padding: 1em;
     background-color: $uni-bg-color-grey;
+
+    .goods-info-more {
+      box-sizing: content-box;
+      padding: 20rpx;
+      min-height: 50rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $uni-bg-color;
+
+      .icon {
+        transform: rotate(-90deg);
+        transition: transform 200ms;
+
+        &.open {
+          transform: rotate(90deg);
+        }
+      }
+      .text {
+        margin-left: 20rpx;
+      }
+    }
     
     .section {
       .title {

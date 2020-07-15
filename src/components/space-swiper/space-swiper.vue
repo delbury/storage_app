@@ -4,7 +4,7 @@
       @change="handleSwiperChange"
       :duration="200"
       :current="currentIndex"
-      style="height: 100%;"
+      style="position: absolute; left: 0; right: 0; top: 0; bottom: 0;"
       easing-function="linear"
      >
       <swiper-item
@@ -108,6 +108,7 @@
 
 <style lang="scss" scoped>
   .page-space-swiper {
+    position: relative;
     flex: 1;
     // width: 100%;
     // height: 100%;
@@ -116,7 +117,8 @@
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-    }    
+    }
+    
     .grid-item {
       position: relative;
       width: 250rpx;
